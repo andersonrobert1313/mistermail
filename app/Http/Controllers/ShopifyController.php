@@ -366,6 +366,7 @@ class ShopifyController extends Controller
                     }
                 }
         }*/
+        
         $records=DB::table('products_view_main_ip')->where('status',0)->get();
         foreach($records as $rec)
         {
