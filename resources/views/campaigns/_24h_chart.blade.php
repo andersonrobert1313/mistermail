@@ -1,4 +1,4 @@
-<h3 class="mt-40 mb-20"><i class="icon-stats-dots"></i> {{ trans('messages.24h_performance') }}</h3>
+<h3 style="color:#335eea !important" class="mt-40 mb-20"><i class="icon-stats-dots"></i> {{ trans('messages.24h_performance') }}</h3>
 <div class="sub-h3">{{ trans('messages.campaign_24h_intro') }}</div>
 <div class="panel panel-flat">
     <div class="panel-body">

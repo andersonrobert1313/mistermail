@@ -3,6 +3,9 @@
 namespace Acelle\Library\Automation;
 
 use Acelle\Model\Email;
+use DB;
+use Acelle\Model\Subscriber;
+
 
 class Evaluate extends Action
 {
@@ -38,13 +41,11 @@ class Evaluate extends Action
         //     $this->autoTrigger->logger()->info('Latest also last action');
         //     return true;
         // }
-
         $result = $this->evaluateCondition();
 
         if (config('app.demo') == true) {
             $result = (bool)random_int(0, 1);
         }
-
         $this->evaluationResult = $result;
 
         $this->recordLastExecutedTime();
@@ -59,13 +60,89 @@ class Evaluate extends Action
             case 'open':
                 $result = $this->evaluateEmailOpenCondition();
                 break;
-            
+            case 'makeapurchase':
+                $result = $this->evaluateMakeApurchase();
+                break;
             default:
                 # code...
                 break;
         }
 
         return $result;
+    }
+
+    public function evaluateMakeApurchase()
+    {
+        //$this->autoTrigger->logger()->info(sprintf('automation id "%s",', $this->autoTrigger->automation2->mail_list_id));
+        if($this->autoTrigger->automation2->automation_name == 'abandon-cart' || $this->autoTrigger->automation2->automation_name == 'browse-abandon')
+        {
+            $checkAbandon=DB::table('abandon_cart')->where('email',$this->autoTrigger->subscriber->email)->where('browse',1)->where('cart',1)->first();
+            if(!empty($checkAbandon))
+            {
+                DB::table('auto_triggers')->where('id',$checkAbandon->browse_trigger_id)->delete();
+            }
+            $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+            if(!empty($getSubscriber))
+            {
+                $date = $getSubscriber->getValueByTag('LAST_PURCHASE');
+                if(!empty($date)){
+                    $exDate=explode("T", $date);
+                    $date2 = date('Y-m-d');
+                    $timestamp1 = strtotime($exDate[0]);
+                    $timestamp2 = strtotime($date2);
+                    $hours = abs($timestamp2 - $timestamp1)/(60*60); 
+                    ///$this->autoTrigger->logger()->info(sprintf('Difference between two dates is  "%s",', $hour));
+                    if($hours >= 48)
+                    {   
+                        return true;
+                    }   
+                    else
+                    {
+                         DB::table('abandon_cart')->where('email',$this->autoTrigger->subscriber->email)->delete();
+                         DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        elseif($this->autoTrigger->automation2->automation_name == 'winback-after-order')
+        {
+            $this->autoTrigger->logger()->info(sprintf('inside after order'));
+            return false;
+            $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+            if(!empty($getSubscriber))
+            {
+                $date = $getSubscriber->getValueByTag('LAST_PURCHASE');
+                if(!empty($date)){
+                    $exDate=explode("T", $date);
+                    $date2 = date('Y-m-d');
+                    $timestamp1 = strtotime($exDate[0]);
+                    $timestamp2 = strtotime($date2);
+                    $hours = abs($timestamp2 - $timestamp1)/(60*60); 
+                    ///$this->autoTrigger->logger()->info(sprintf('Difference between two dates is  "%s",', $hour));
+                    if($hours >= 48)
+                    {   
+                        return true;
+                    }   
+                    else
+                    {
+                         DB::table('abandon_cart')->where('email',$this->autoTrigger->subscriber->email)->delete();
+                         DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+
+        }
     }
 
     public function evaluateEmailOpenCondition()

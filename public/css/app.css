@@ -340,7 +340,7 @@ h2 [class^="icon-"] {
     margin-bottom: 0px;
 }
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-    background-color: #26A69A;
+    background-color: #335eea;
 }
 .dropdown-menu .divider {
     margin: 0;
@@ -605,7 +605,8 @@ h2 [class^="icon-"] {
 }
 @media (min-width: 768px) {
     .nav-tabs.nav-tabs-top > li.active > a, .nav-tabs.nav-tabs-top > li.active > a:hover, .nav-tabs.nav-tabs-top > li.active > a:focus, .nav-tabs.nav-tabs-top > li > a:hover {
-        border-bottom-color: #26A69A;
+        border-bottom-color: #335eea;
+        color: #335eea !important;
     }
 }
 @media (min-width: 769px) {
@@ -2746,8 +2747,8 @@ canvas[data-zr-dom-id='_zrender_hover_'] {
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
   border: none;
-    border-bottom: 2px solid #26A69A;
-    border-bottom-color: #26A69A;
+    border-bottom: 2px solid #335eea;
+    border-bottom-color: #335eea;
 }
 .template-boxes .panel-template-style {
   border-color: transparent;

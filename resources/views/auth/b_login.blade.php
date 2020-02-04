@@ -57,17 +57,20 @@
         @if (\Acelle\Model\Setting::get('login_recaptcha') == 'yes')
             {!! \Acelle\Library\Tool::showReCaptcha($errors) !!}
         @endif
-
+        <input type="hidden" name="store_name" value="{{ @($_GET['shop']) }}">
         <button type="submit" class="btn btn-lg bg-teal btn-block">{{ trans("messages.login") }} <i class="icon-circle-right2 position-right"></i></button>
     </div>
 
-    @if (\Acelle\Model\Setting::get('enable_user_registration') == 'yes')
+  <!--   @if (\Acelle\Model\Setting::get('enable_user_registration') == 'yes')
         <div class="text-center">
             {!! trans('messages.need_a_account_create_an_one', [
 	'link' => action('UserController@register')
             ]) !!}
         </div>
-    @endif
+    @endif -->
+     <div class="text-center">
+    Need a Mister Mail account? <a class="text-info" href="{{ url('/users/register?shop=') }}<?= @($_GET['shop']) ?>">Create an account</a>
+</div>
 </form>
 <!-- /advanced login -->
 

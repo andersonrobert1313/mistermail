@@ -29,6 +29,7 @@ use Acelle\Library\Automation\Trigger;
 use Acelle\Library\Automation\Send;
 use Acelle\Library\Automation\Wait;
 use Acelle\Library\Automation\Evaluate;
+use DB;
 
 class AutoTrigger extends Model
 {
@@ -102,6 +103,8 @@ class AutoTrigger extends Model
         if (is_null($nextId)) {
             return;
         }
+        //$this->logger()->info(sprintf('UPDATE > Next Id "%s"', $nextId));
+
 
         $selected = null;
         $this->getActions(function ($instance) use ($nextId, &$selected) {
@@ -127,46 +130,91 @@ class AutoTrigger extends Model
         ]);
     }
 
+    public function TerminateCartAutomation()
+    {
+        $this->logger()->info(sprintf('UPDATE > Terminate Trigger %s for "%s" - "%s"', $this->id, $this->automation2->name, $this->subscriber->email));
+        $origins = json_decode($this->automation2->data, true);
+        $myLastElement = end($origins);
+        $this->logger()->info(sprintf('UPDATE > Terminate2 LAst ID Trigger "%s"', $myLastElement['id']));
+        $nextId=$myLastElement['id'];
+        $selected = null;
+        $this->getActions(function ($instance) use ($nextId, &$selected) {
+            if ($instance->getId() == $nextId) {
+                $this->logger()->info(sprintf('UPDATE > Terminate2 if'));
+                $instance->markAsLatest(true);
+                $selected = $instance; 
+                //break;
+            } else {
+                  $this->logger()->info(sprintf('UPDATE > Terminate2 else'));
+                  $instance->markAsLatest(false);
+            }
+            $this->updateAction($instance);
+            $last = $this->moveToNextAction();
+            if ($last == null) {
+                $this->logger()->info(sprintf('UPDATE > %s > Endd of flow, no more action to check'));
+                //break;
+            }
+        });
+    }
+
     public function check()
     {
         $this->logger()->info(sprintf('UPDATE > Trigger %s for "%s" - "%s" Start checking', $this->id, $this->automation2->name, $this->subscriber->email));
         $last = $this->getLatestAction();
-        if ($last == null) {
+        if ($last == null) { // ehde ch kdi ni janda
             $trigger = $this->getTrigger();
             $trigger->markAsLatest(true);
             $this->updateAction( $trigger );
             $last = $trigger;
         }
 
-        $this->logger()->info(sprintf('UPDATE > %s > Checking "%s"', $this->id, $last->getTitle()));
-
         while ($last->execute() == true) { // true means: done with this step, should proceed next
             $this->updateAction($last); // update 'last_checked_at' field of Wait for example
             $this->recordToTimeline($last);
-
             $last = $this->moveToNextAction();
             if ($last == null) {
+                $endId=$this->checkEndArray();
+                $getAutoTrigger=DB::table("auto_triggers")->where('id',$this->id)->first();
+                $executedArray=explode(",", $getAutoTrigger->executed_index);
+                if (in_array($endId, $executedArray))
+                {
+                    DB::table('abandon_cart')->where('email',$this->subscriber->email)->where('cart_trigger_id',$this->id)->orWhere('browse_trigger_id',$this->id)->delete();
+                }
                 $this->logger()->info(sprintf('UPDATE > %s > End of flow, no more action to check', $this->id, $this->automation2->name, $this->subscriber->email));
                 break;
             }
-            $this->logger()->info(sprintf('UPDATE > %s > Checking "%s"', $this->id, $last->getTitle()));
+            //$this->logger()->info(sprintf('UPDATE > %s > Checkingg  "%s" "%s"', $this->id, $last->getTitle(),$last->getId()));
         }
 
         if (!is_null($last)) {
+            //$this->logger()->info(sprintf('UPDATE > last update "%s"', json_encode($last->getId())));
             $this->updateAction($last); // update 'last_checked_at' field of Wait for example
+            //$this->logger()->info(sprintf('UPDATE > see last "%s" last "%s"', $endId, json_encode($executedArray)));
             $this->logger()->info(sprintf('UPDATE > %s > Pending at "%s"', $this->id, $last->getTitle()));
         }
 
     }
 
+    public function checkEndArray()
+    {
+        $origins = json_decode($this->automation2->data, true);
+        $myLastElement = end($origins);
+        return $myLastElement['id'];
+    }
+
     public function updateAction($action)
     {
         $json = $this->getJson();
-        if (array_key_exists($action->getId(), $json)) {
+        //$this->logger()->info(sprintf('UPDATE > json action "%s"',json_encode($action->getId())));
+        if (array_key_exists($action->getId(), $json)) 
+        {
             $current = $json[$action->getId()];
             $updated = array_merge($current, $action->toJson());
             $json[$action->getId()] = $updated;
-        } else {
+        } 
+        else 
+        {
+            //$this->logger()->info(sprintf('UPDATE > %s > Pending at "%s"', $this->id, $last->getTitle()));
             $json[$action->getId()] = $action->toJson();
         }
 
@@ -238,7 +286,6 @@ class AutoTrigger extends Model
                 $trigger = $e;
             }
         });
-
         return  $trigger;
     }
 

@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         Commands\GeoIpCheck::class,
         TinkerCommand::class,
         */
+         Commands\ProductViewCron::class,
     ];
 
     /**
@@ -47,7 +48,7 @@ class Kernel extends ConsoleKernel
         // Automation
         $schedule->call(function () {
             Automation2::run();
-        })->name('automation:run')->everyFiveMinutes();
+        })->name('automation:run')->everyMinute();
 
         // Bounce/feedback handler
         $schedule->command('handler:run')->everyThirtyMinutes();
@@ -70,6 +71,9 @@ class Kernel extends ConsoleKernel
             $gateway = Cashier::getPaymentGateway();
             Subscription::check($gateway);
         })->name('subscription:run')->everyFiveMinutes();
+        
+        // $schedule->command('productviewcron:cron')->everyFiveMinutes();
+         $schedule->command('createorderwebhook:cron')->everyMinute();
     }
 
     /**

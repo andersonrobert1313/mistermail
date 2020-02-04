@@ -14,6 +14,7 @@
         'value' => $element->getOption('type'),
         'help_class' => 'trigger',
         'options' => [
+            ['text' => 'Contact did not make a Purchase?', 'value' => 'makeapurchase'],
             ['text' => 'Subscriber read an Email', 'value' => 'open'],
             ['text' => 'Subscriber clicks on a Link', 'value' => 'click']
         ],

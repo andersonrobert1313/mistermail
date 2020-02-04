@@ -1,6 +1,6 @@
 <div class="sub_section">
     <h2 class="text-semibold">{{ trans('messages.list.title.edit') }}</h2>
-    <h3 class="text-semibold">{{ trans('messages.list_details') }}
+    <h3 style="color:#335eea !important" class="text-semibold">{{ trans('messages.list_details') }}
     </h3>
 
     <div class="row">
@@ -38,7 +38,7 @@
 </div>
 
 <div class="sub_section">
-    <h3 class="text-semibold">
+    <h3 style="color:#335eea !important" class="text-semibold">
         {{ trans('messages.contact_information') }}
         <span class="subhead">{!! trans('messages.default_from_your_contact_information', ['link' => action('AccountController@contact')]) !!}</span>
     </h3>
@@ -86,7 +86,7 @@
 
 <div class="sub_section">
     <h2 class="text-semibold">{{ trans('messages.settings') }}</h2>
-    <h3 class="text-semibold">{{ trans('messages.subscription') }}</h3>
+    <h3 style="color:#335eea !important" class="text-semibold">{{ trans('messages.subscription') }}</h3>
     <div class="row">
         <div class="col-md-6 hide">
             @include('helpers.form_control', ['type' => 'text', 'name' => 'email_subscribe', 'value' => $list->email_subscribe, 'help_class' => 'list', 'rules' => Acelle\Model\MailList::$rules])

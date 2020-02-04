@@ -23,6 +23,7 @@
 namespace Acelle\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class TrackingLog extends Model
 {
@@ -42,6 +43,15 @@ class TrackingLog extends Model
     public function customer()
     {
         return $this->belongsTo('Acelle\Model\Customer');
+    }
+
+     public function AllLog($message_id)
+    {
+        $open_logs=DB::table('open_logs')->where('message_id',$message_id)->orderBy('id','DESC')->get();
+        $click_logs=DB::table('click_logs')->where('message_id',$message_id)->orderBy('id','DESC')->get();
+        $OpenLogs=json_decode(json_encode($open_logs));
+        $ClickLogs=json_decode(json_encode($click_logs));
+        return array_merge($OpenLogs,$ClickLogs);
     }
 
     public function campaign()

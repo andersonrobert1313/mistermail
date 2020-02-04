@@ -34,7 +34,7 @@
                 </div>
             @endif
 
-            <h2 class="text-semibold">{{ trans('messages.subscription') }}</h2>
+            <h2 style="color:#335eea !important" class="text-semibold">{{ trans('messages.subscription') }}</h2>
 
             <div class="sub-section">
                 @if ($subscription->isActive())
@@ -114,7 +114,7 @@
     <div class="sub-section">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
-                <h2 class="text-semibold">{{ trans('messages.plan_details') }} </h2>
+                <h2 style="color:#335eea !important" class="text-semibold">{{ trans('messages.plan_details') }} </h2>
                 <p>{{ trans('messages.plan_details.intro') }}</p>
 
                 @include('plans._details', ['plan' => $plan])

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>@yield('title') - {{ \Acelle\Model\Setting::get("site_name") }}</title>
+	<title>Shopify Mister Mail</title>
 
 	@include('layouts._favicon')
 
@@ -44,18 +44,27 @@
 
 	<!-- display flash message -->
 	@include('common.flash')
-
+<style>
+.has-feedback-left .form-control-feedback
+{
+	left:8px !important;
+	border-right: 1px solid #ddd;
+}
+.has-feedback-left .form-control
+{
+	padding-left: 66px!important;
+}
+.form-control-feedback
+{
+	width: 50px!important;
+}
+</style>
 </head>
 
 <body class="bg-slate-800">
 
 	<!-- Page container -->
 	<div class="page-container login-container">
-		@if (\Auth::check())
-			<div class="text-right">
-				<a href="{{ url("/logout") }}"  class='text-white ml-20'><i class="icon-switch2"></i> {{ trans('messages.logout') }}</a>
-			</div>
-		@endif
 
 		<!-- Page content -->
 		<div class="page-content">
@@ -63,20 +72,12 @@
 			<!-- Main content -->
 			<div class="content-wrapper">
 				<div class="row">
-					<div class="col-sm-2 col-md-4">
+					<div class="col-sm-2 col-md-3">
 
 					</div>
-					<div class="col-sm-8 col-md-4">
+					<div class="col-sm-8 col-md-5">
 
-						<div style="margin: 50px 0 !important;" class="text-center login-header">
-							<a class="main-logo-big" href="{{ action('HomeController@index') }}">
-								@if (\Acelle\Model\Setting::get('site_logo_big'))
-									<img style="width: 50% !important;" src="{{ action('SettingController@file', \Acelle\Model\Setting::get('site_logo_big')) }}" alt="">
-								@else
-									<img style="width: 50% !important;" src="{{ URL::asset('images/logo_big.png') }}" alt="">
-								@endif
-							</a>
-						</div>
+					
 
 						@yield('content')
 
@@ -90,11 +91,7 @@
 
 
 		<!-- Footer -->
-		<div class="footer text-white">
-			<div class="footer text-mutedd">
-				Mister Mail - We put the AI in mail. © 2020 | All Rights Reserved | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Privacy Policy</a> | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Terms Of Use</a>
-		</div>
-		</div>
+		
 		<!-- /footer -->
 
 	</div>

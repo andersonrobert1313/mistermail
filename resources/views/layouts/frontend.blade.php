@@ -152,7 +152,16 @@
 
 				<li class="dropdown dropdown-user">
 					<a class="dropdown-toggle" data-toggle="dropdown">
+						<?php if(!empty(Auth::user()->customer->image)){ ?>
 						<img src="{{ action('CustomerController@avatar', Auth::user()->customer->uid) }}" alt="">
+						<?php }else{ ?>
+						<span style="color: white;font-size: 20px;background: #51bd8b;border-radius: 50%;width: 40px;letter-spacing: -2px;">
+							<?php $name_Data=Auth::user()->customer->displayName(); 
+									$ex=explode(" ", $name_Data);
+									echo ucfirst(substr($ex[0],0,1)).' '.ucfirst(substr($ex[1],0,1));
+							?>
+						</span>
+						<?php } ?>
 						<span>{{ Auth::user()->customer->displayName() }}</span>
 						<i class="caret"></i>
 					</a>
@@ -225,7 +234,7 @@
 
 		<!-- Footer -->
 		<div class="footer text-muted">
-			{!! trans('messages.copy_right') !!}
+				Mister Mail - We put the AI in mail. © 2020 | All Rights Reserved | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Privacy Policy</a> | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Terms Of Use</a>
 		</div>
 		<!-- /footer -->
 

@@ -4,8 +4,21 @@
                             >
 								@foreach ($logs as $key => $item)
 									<tr>
-                                        <td width="1%">
-											<img width="50" class="img-circle mr-10" src="{{ action('CustomerController@avatar', $item->customer->uid) }}" alt="">
+                                         <td width="1%">
+                                        	 <?php if(!empty($item->customer->image)){ ?>
+                                        	 <img width="50" class="img-circle mr-10" src="{{ action('CustomerController@avatar', $item->customer->uid) }}" alt="">
+                                            <?php }else{ ?>
+                                            <h1 style="color: white;
+    text-align: center;
+    font-size: 21px;
+    letter-spacing: -1px;
+    margin-top: 6px;
+    background: #51bd8b;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    padding-top: 5px;">{{ @(ucfirst(substr($item->customer->first_name,0,1)))  }} {{ @(ucfirst(substr($item->customer->last_name,0,1)))  }}</h1>
+                                           <?php } ?>
 										</td>
 										<td>
 											<p class="mb-0">                                                

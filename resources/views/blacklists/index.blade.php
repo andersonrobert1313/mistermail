@@ -14,7 +14,7 @@
         <ul class="breadcrumb breadcrumb-caret position-right">
             <li><a href="{{ action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
         </ul>
-        <h1>
+        <h1 style="color:#335eea !important">
             <span class="text-semibold"><i class="icon-list2"></i> {{ trans('messages.blacklist') }}</span>
         </h1>
     </div>

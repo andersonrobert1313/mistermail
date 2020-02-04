@@ -7,6 +7,7 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 use Acelle\Library\Log as MailLog;
 use Illuminate\Support\Facades\Log as LaravelLog;
 use Gate;
+use Mail;
 use Validator;
 use Illuminate\Validation\ValidationException;
 use Acelle\Model\TrackingLog;
@@ -14,6 +15,8 @@ use Acelle\Library\StringHelper;
 use Acelle\Model\Template;
 use Acelle\Jobs\ExportCampaignLog;
 use Acelle\Model\SystemJob;
+use Acelle\Model\MailList;
+
 
 class CampaignController extends Controller
 {
@@ -1766,7 +1769,6 @@ class CampaignController extends Controller
     {
         $customer = $request->user()->customer;
         $items = \Acelle\Model\Campaign::whereIn('uid', explode(',', $request->uids));
-
         foreach ($items->get() as $item) {
             if (\Gate::allows('restart', $item)) {
                 $item->requeue();
@@ -1912,9 +1914,20 @@ class CampaignController extends Controller
             return $this->notAuthorized();
         }
 
-        $sending = $campaign->sendTestEmail($request->send_test_email);
+       /* $sending = $campaign->sendTestEmail($request->send_test_email);*/
+       try
+            {
+                $email = $request->send_test_email;
+                Mail::send('emails.testEmail', ['data' => $campaign->html], function ($message) use ($email) {
+                    $message->from('support@themistermail.com', 'Mister Mail');
+                    $message->to($email)->subject('Test Email');
+                });
+            } catch (\Exception $e) {
+                echo '<pre>';
+                print_r($e->getMessage());die;
+            }
 
-        return json_encode($sending);
+        return json_encode('sent');
     }
 
     /**

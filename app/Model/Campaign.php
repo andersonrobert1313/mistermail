@@ -28,6 +28,8 @@ use Acelle\Library\Log as MailLog;
 use DB;
 use Acelle\Exceptions\CampaignPausedException;
 use Acelle\Exceptions\CampaignErrorException;
+use Acelle\Model\MailList;
+
 
 class Campaign extends AbsCampaign
 {

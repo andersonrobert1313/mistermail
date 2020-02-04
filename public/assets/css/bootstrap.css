@@ -4575,8 +4575,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #999999;
 }
 .navbar-inverse {
-  background-color: #37474F;
-  border-color: #37474F;
+  background-color: #2b354f;
+  border-color: #2b354f;
 }
 .navbar-inverse .navbar-brand {
   color: #fff;
@@ -4631,10 +4631,10 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 @media (max-width: 768px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-    border-color: #37474F;
+    border-color: #2b354f;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-    background-color: #37474F;
+    background-color: #2b354f;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #fff;

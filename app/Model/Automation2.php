@@ -273,6 +273,14 @@ class Automation2 extends Model
     public function getDelayOptions()
     {
         return [
+            ['text' => trans_choice('messages.automation.delay.minute', 1), 'value' => '1 minute'],
+            ['text' => trans_choice('messages.automation.delay.hours', 1), 'value' => '1 hour'],
+            ['text' => trans_choice('messages.automation.delay.hours', 2), 'value' => '2 hours'],
+            ['text' => trans_choice('messages.automation.delay.hours', 4), 'value' => '4 hours'],
+            ['text' => trans_choice('messages.automation.delay.hours', 6), 'value' => '6 hours'],
+            ['text' => trans_choice('messages.automation.delay.hours', 8), 'value' => '8 hours'],
+            ['text' => trans_choice('messages.automation.delay.hours', 10), 'value' => '10 hours'],
+            ['text' => trans_choice('messages.automation.delay.hours', 12), 'value' => '12 hours'],
             ['text' => trans_choice('messages.automation.delay.day', 1), 'value' => '1 day'],
             ['text' => trans_choice('messages.automation.delay.day', 2), 'value' => '2 days'],
             ['text' => trans_choice('messages.automation.delay.day', 3), 'value' => '3 days'],
@@ -374,6 +382,21 @@ class Automation2 extends Model
             case 'say-happy-birthday':
                 $this->checkForListSubscription();
                 break;
+                 case 'welcome-new-subscriber':
+                $this->checkForListSubscription();
+                break;
+                case 'browse-abandon':
+                $this->checkForBrowseAbandon();
+                break;
+                case 'abandon-cart':
+                $this->checkForCartUsers();
+                break;
+                case 'after-order':
+                $this->checkForAfterOrders();
+                break;
+                 case 'winback-after-order':
+                $this->checkForWinBackOrders();
+                break;
             case 'specific-date':
                 $this->checkForSpecificDatetime();
                 //...
@@ -394,6 +417,66 @@ class Automation2 extends Model
         $this->logger()->info(sprintf('NEW > Finish checking for new trigger'));
     }
 
+
+    public function checkForBrowseAbandon()
+    {
+         $this->logger()->info(sprintf('NEW > Check for Browse Users'));
+         $total_subscribers = $this->subscribers();
+         foreach ($this->subscribers()->get() as $subscriber) {
+            $checkCart=DB::table('abandon_cart')->where('email',$subscriber->email)->where('status',0)->where('browse',1)->where('cart','!=',1)->count();
+            if($checkCart > 0)
+            {
+                $initData=$this->initTrigger($subscriber);
+                $this->logger()->info(sprintf('UPDATE inittrigger "%s"',$initData->id));
+                DB::table('abandon_cart')->where('email',$subscriber->email)->update(array('status'=>1,'browse_trigger_id'=>$initData->id));
+                //DB::table('auto_triggers')->where('id',$initData->id)->update(array('type'=>0));
+            }
+         }
+    }
+
+    public function checkForAfterOrders()
+    {
+        $this->logger()->info(sprintf('NEW > Check for After Orders'));
+        foreach ($this->subscribers()->get() as $subscriber) {
+            $getWebhookOrders=DB::table('webhook_orders')->where('status',1)->where('email',$subscriber->email)->first();
+            if(!empty($getWebhookOrders)) 
+            {
+                $this->initTrigger($subscriber);
+                $this->logger()->info(sprintf('UPDATE afterOrders "%s"',$subscriber->email));
+                DB::table('webhook_orders')->where('id',$getWebhookOrders->id)->update(array('status'=>2));
+            }
+        }
+    }
+    public function checkForWinBackOrders()
+    {
+        $this->logger()->info(sprintf('NEW > Check for Win back  Orders'));
+        foreach ($this->subscribers()->get() as $subscriber) {
+            $getWebhookOrders=DB::table('webhook_orders')->where('status',2)->where('email',$subscriber->email)->first();
+            if(!empty($getWebhookOrders)) 
+            {
+                $initData=$this->initTrigger($subscriber);
+                $this->logger()->info(sprintf('UPDATE after win back Orders "%s"',$subscriber->email));
+                DB::table('webhook_orders')->where('id',$getWebhookOrders->id)->delete();
+            }
+        }
+    }
+
+
+    public function checkForCartUsers()
+    {
+         $total_subscribers = $this->subscribers();
+         foreach ($this->subscribers()->get() as $subscriber) {
+            $checkCart=DB::table('abandon_cart')->where('email',$subscriber->email)->where('status',1)->where('cart',1)->count();
+            if($checkCart > 0)
+            {
+                $initData=$this->initTrigger($subscriber);
+                $this->logger()->info(sprintf('UPDATE inittrigger "%s"',$initData->id));
+                DB::table('abandon_cart')->where('email',$subscriber->email)->update(array('status'=>2,'cart_trigger_id'=>$initData->id));
+                //DB::table('auto_triggers')->where('id',$initData->id)->update(array('type'=>1));
+            }
+         }
+    }
+
     /**
      * Check for existing triggers update
      */
@@ -409,6 +492,7 @@ class Automation2 extends Model
     /**
      * Check for list-subscription events.
      */
+
     public function checkForListSubscription()
     {
         $this->logger()->info(sprintf('NEW > Check for List Subscription'));

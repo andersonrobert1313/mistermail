@@ -11,7 +11,7 @@
     <h1 class="mb-10">{{ trans('messages.frontend_dashboard_hello', ['name' => Auth::user()->customer->displayName()]) }}</h1>
     <p>{{ trans('messages.frontend_dashboard_welcome') }}</p>
 
-    <h3 class=" mb-10 mt-40"><i class="icon-stats-bars4"></i> {{ trans("messages.used_quota") }}</h3>
+    <h3 style="color:#335eea !important" class=" mb-10 mt-40"><i class="icon-stats-bars4"></i> {{ trans("messages.used_quota") }}</h3>
     <p>{{ trans('messages.dashboard.credit.wording') }}</p>
     <div class="row quota_box">
         <div class="col-sm-6 col-md-6">
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <h3 class=" mt-40"><i class="icon-paperplane"></i> {{ trans('messages.recently_sent_campaigns') }}</h3>
+    <h3 style="color:#335eea !important" class=" mt-40"><i class="icon-paperplane"></i> {{ trans('messages.recently_sent_campaigns') }}</h3>
 
     @if (Auth::user()->customer->sentCampaigns()->count() == 0)
         <div class="empty-list">
@@ -93,7 +93,7 @@
         <div class="campaign-quickview-container" data-url="{{ action("CampaignController@quickView") }}"></div>
     @endif
 
-    <h3 class=" mt-40"><i class="icon-address-book2"></i> {{ trans('messages.list_growth') }}</h3>
+    <h3 style="color:#335eea !important" class=" mt-40"><i class="icon-address-book2"></i> {{ trans('messages.list_growth') }}</h3>
 
     @if (Auth::user()->customer->lists()->count() == 0)
         <div class="empty-list">
@@ -119,7 +119,7 @@
         <div class="list-quickview-container" data-url="{{ action("MailListController@quickView") }}"></div>
     @endif
 
-    <h3 class=" mt-40"><i class="icon-podium"></i> {{ trans('messages.top_5') }}</h3>
+    <h3 style="color:#335eea !important" class=" mt-40"><i class="icon-podium"></i> {{ trans('messages.top_5') }}</h3>
     <div class="tabbable">
         <ul class="nav nav-tabs nav-tabs-top">
             <li class="active text-semibold"><a href="#top-tab1" data-toggle="tab">
@@ -265,7 +265,7 @@
         </div>
     </div>
 
-    <h3 class=" mt-40"><i class="icon-history"></i> {{ trans('messages.activity_log') }}</h3>
+    <h3 style="color:#335eea !important" class=" mt-40"><i class="icon-history"></i> {{ trans('messages.activity_log') }}</h3>
 
     @if (Auth::user()->customer->logs()->count() == 0)
         <div class="empty-list">
@@ -282,9 +282,16 @@
                         @foreach (Auth::user()->customer->logs()->take(20)->get() as $log)
                             <!-- Sales stats -->
                             <div class="timeline-row">
-                                <div class="timeline-icon">
-                                    <a href="#"><img src="{{ action('CustomerController@avatar', $log->customer->uid) }}" alt=""></a>
-                                </div>
+                                <?php
+                                if(!empty($log->customer->image)){ ?>
+                                <div  class="timeline-icon">
+                                            <a  href="#"><img  src="{{ action('CustomerController@avatar', $log->customer->uid) }}" class="img-circle" alt=""></a>
+                                    </div>
+                                            <?php } else{ ?>
+                                     <div style="background-color:#51bd8b"  class="timeline-icon">
+                                            <h1 style="color: white;text-align: center;font-size: 21px;letter-spacing: -1px;margin-top: 6px;">{{ @(ucfirst(substr($log->customer->first_name,0,1)))  }} {{ @(ucfirst(substr($log->customer->last_name,0,1)))  }}</h1>
+                                        </div>
+                                           <?php } ?>
 
                                 <div class="panel panel-flat timeline-content">
                                     <div class="panel-heading">

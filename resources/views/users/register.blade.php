@@ -6,6 +6,30 @@
     <script type="text/javascript" src="{{ URL::asset('assets/js/plugins/visualization/echarts/echarts.js') }}"></script>
     
     <script type="text/javascript" src="{{ URL::asset('js/chart.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var shop='<?php echo @($_GET["shop"]); ?>';
+            if(shop != ''){
+                $.ajax({
+                    method:'GET',
+                    data:{shop:shop},
+                    url:"https://apps.thescorpiolab.com/isoraw/getStoreOwner",
+                    success:function(resp){
+                        var response=resp.split('|');
+                        $('#email').val(response[0]);
+                         $.ajax({
+                            method:'GET',
+                            data:{shop:shop,data:response[1]},
+                            url:"{{ url('/saveJson') }}",
+                            success:function(resp){
+                                
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -25,10 +49,9 @@
             </div>
             <div class="col-md-5">
                 
-                <h1 class="mb-20">{{ trans('messages.create_your_account') }}</h1>
-                <p>{!! trans('messages.register.intro', [
-                    'login' => url("/login"),
-                ]) !!}</p>
+                <h1 class="mb-20">Create Your Mister Mail Account</h1>
+                <p>Manage your contacts, generate leads, run a marketing campaign,send automated emails and much more... Join us at Mister Mail to enjoy doing
+    every day sales & marketing without any hassle. If you already have an account? <a href="{{ url('/login?shop=').@($_GET['shop']) }}">Login</a></p>
                     
                 @include('helpers.form_control', [
                     'type' => 'text',
@@ -78,7 +101,8 @@
                     'include_blank' => trans('messages.choose'),
                     'rules' => $customer->registerRules()
                 ])
-                
+                                        <input type="hidden" value="{{ @($_GET['shop']) }}" name="store_name">
+
                 @if (Acelle\Model\Setting::get('registration_recaptcha') == 'yes')
                     <div class="row">
                         <div class="col-md-3"></div>
@@ -93,7 +117,7 @@
                 <hr>
                 <div class="row flex align-items">
                     <div class="col-md-4">
-                        <button type='submit' class="btn btn-mc_primary res-button"><i class="icon-check"></i> {{ trans('messages.get_started') }}</button>
+                        <button type='submit' class="btn btn-mc_primary"><i class="icon-check"></i> {{ trans('messages.get_started') }}</button>
                     </div>
                     <div class="col-md-8">
                         {!! trans('messages.register.agreement_intro') !!}
@@ -104,15 +128,5 @@
             <div class="col-md-1"></div>
         </div>
     </form>
-
-    <script>
-        @if (isSiteDemo())
-            $('.res-button').click(function(e) {
-                e.preventDefault();
-
-                notify('notice', '{{ trans('messages.notify.notice') }}', '{{ trans('messages.operation_not_allowed_in_demo') }}');
-            });
-        @endif
-    </script>
     
 @endsection

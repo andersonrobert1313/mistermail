@@ -13,6 +13,7 @@ use Acelle\Model\Attachment;
 use Acelle\Model\Template;
 use Acelle\Model\Subscriber;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class Automation2Controller extends Controller
 {
@@ -21,11 +22,11 @@ class Automation2Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index(Request $request)
     {
         $user = $request->user();
         $automations = $user->customer->automation2s();
-
         return view('automation2.index', [
             'automations' => $automations,
         ]);
@@ -210,6 +211,11 @@ class Automation2Controller extends Controller
         }
         
         $types = [
+            'abandon-cart',
+            'browse-abandon',
+            'after-order',
+            'winback-after-order',
+            'winback-no-order',
             'welcome-new-subscriber',
             'say-happy-birthday',
             'subscriber-added-date',
@@ -234,6 +240,7 @@ class Automation2Controller extends Controller
     {
         // init automation
         $automation = Automation2::findByUid($uid);
+        Automation2::where('uid',$uid)->update(array('automation_name'=>$request->key));
         $rules = $this->triggerRules()[$request->key];
         
         // authorize
@@ -257,6 +264,11 @@ class Automation2Controller extends Controller
     public function triggerRules()
     {
         return [
+        'abandon-cart' => [],
+        'browse-abandon' => [],
+        'after-order' => [],
+        'winback-after-order' => [],
+          'winback-no-order' => [],
             'welcome-new-subscriber' => [],
             'say-happy-birthday' => [
                 'options.before' => 'required',
@@ -383,13 +395,14 @@ class Automation2Controller extends Controller
         }
         
         if ($request->key == 'wait') {
+            Automation2::where('uid',$uid)->update(array('automation_wait'=>$request->time));
             return response()->json([
                 'status' => 'success',
                 'message' => trans('messages.automation.action.added'),
                 'title' => trans('messages.automation.wait.delay.' . $request->time),
                 'options' => [
                     'key' => $request->key,
-                    'time' => $request->time,
+                    'time' => $request->time
                 ],
             ]);
         } else if ($request->key == 'condition') {
@@ -404,7 +417,18 @@ class Automation2Controller extends Controller
                         'email' => $request->email,
                     ],
                 ]);
-            } else if ($request->type == 'click') {
+            } else if ($request->type == 'makeapurchase') {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.makeapurchase.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+            else if ($request->type == 'click') {
                 return response()->json([
                     'status' => 'success',
                     'message' => trans('messages.automation.action.added'),
@@ -499,6 +523,7 @@ class Automation2Controller extends Controller
         // saving
         if($request->isMethod('post')) {
             if ($request->key == 'wait') {
+                Automation2::where('uid',$uid)->update(array('automation_wait'=>$request->time));
                 return response()->json([
                     'status' => 'success',
                     'message' => trans('messages.automation.action.updated'),
@@ -520,7 +545,18 @@ class Automation2Controller extends Controller
                             'email' => $request->email,
                         ],
                     ]);
-                } else if ($request->type == 'click') {
+                } else if ($request->type == 'makeapurchase') {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.makeapurchase.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+            else if ($request->type == 'click') {
                     return response()->json([
                         'status' => 'success',
                         'message' => trans('messages.automation.action.updated'),

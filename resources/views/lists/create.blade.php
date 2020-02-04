@@ -14,7 +14,7 @@
 			<li><a href="{{ action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
 			<li><a href="{{ action("MailListController@index") }}">{{ trans('messages.lists') }}</a></li>
 		</ul>
-		<h1>
+		<h1 style="color:#335eea !important">
 			<span class="text-semibold"><i class="icon-plus-circle2"></i> {{ trans('messages.create_list') }}</span>
 		</h1>
 	</div>

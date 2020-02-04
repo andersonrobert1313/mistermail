@@ -1,4 +1,4 @@
-<h3 class="mt-0 mb-0"><i class="icon-stats-bars4"></i> {{ trans("messages.used_quota") }}</h3>
+<h3 style="color:#335eea !important" class="mt-0 mb-0"><i class="icon-stats-bars4"></i> {{ trans("messages.used_quota") }}</h3>
 
 <!-- Alert if customer don't have any subscription -->
 @if (is_object(\Auth::user()->customer) &&

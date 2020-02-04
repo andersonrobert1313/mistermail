@@ -484,7 +484,7 @@
                     left: -1000
                 });
                 contentArea.attr('id', 'jquery-notebook-content-' + id);
-                body.append(contentArea);
+                //body.append(contentArea);
             },
             prepare: function(elem, customOptions) {
                 options = customOptions;

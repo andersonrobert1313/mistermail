@@ -16,8 +16,8 @@
             <li><a href="{{ action("SenderController@index") }}">{{ trans('messages.verified_senders') }}</a></li>
             <li><a href="{{ action("SenderController@index") }}">{{ trans('messages.email_addresses') }}</a></li>
         </ul>
-        <h1>
-            <span class="text-semibold">{{ trans('messages.verified_senders') }}</span>
+        <h1 style="color:#335eea !important">
+            <span class="text-semibold"><i class="icon-user-check"></i> {{ trans('messages.verified_senders') }}</span>
         </h1>    
     </div>
 @endsection

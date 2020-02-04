@@ -27,13 +27,16 @@
 					</div>
 				</td>
 
-				@foreach ($fields as $field)
-					<?php $value = $item->getValueByField($field); ?>
+				@foreach ($fields as $key=>$field)
+					<?php
+							if($key < 4){
+					 $value = $item->getValueByField($field); ?>
 					<td>
 						<span class="no-margin stat-num kq_search">{{ empty($value) ? "--" : $value }}</span>
 						<br>
 						<span class="text-muted2">{{ $field->label }}</span>
 					</td>
+					<?php } ?>
 				@endforeach
 
 				@if (in_array("created_at", explode(",", request()->columns)))

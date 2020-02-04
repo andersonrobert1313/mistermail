@@ -20,6 +20,16 @@ Route::get('/assets/ux/{name?}', [ function ($name) {
     }
 }])->where('name', '.+');
 
+
+//shopify app
+Route::any('/shopify-app-install', 'ShopifyController@install');
+Route::any('/getCredentials', 'ShopifyController@getCredentials');
+Route::any('/setShopifyUninstall', 'ShopifyController@setShopifyUninstall');
+Route::any('/orderCreateWebhook', 'ShopifyController@orderCreateWebhook');
+Route::any('/MisterMailScript', 'ShopifyController@MisterMailScript');
+Route::any('/saveJson', 'ShopifyController@saveJson');
+Route::any('/getEmailData', 'SubscriberController@getEmailData');
+
 // Automation
 Route::resource('automation', 'AutomationController');
 

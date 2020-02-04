@@ -54,6 +54,8 @@
                                 <th>{{ trans('messages.default_value') }}</th>
 								<th></th>
                             @foreach ($fields as $key => $item)
+                      <?php if($item->tag == 'EMAIL' || $item->tag == 'FIRST_NAME' || $item->tag == 'LAST_NAME' || $item->tag == 'STATUS' || $item->tag == 'CREATED_AT' || $item->tag == 'ORDERS_COUNT' || $item->tag == 'TOTAL_SPENT' || $item->tag == 'LAST_ORDER_ID' || $item->tag == 'PHONE' || $item->tag == 'ADDRESS' || $item->tag == 'CITY' || $item->tag == 'COUNTRY' || $item->tag == 'ZIP' || $item->tag == 'WELCOME_POINTS' || $item->tag == 'POINTS_EARN' || $item->tag == 'TOTAL_POINTS' || $item->tag == 'BIRTHDAY' || $item->tag == 'ANNIVERSARY' || $item->tag == 'POINTS_REDEEM' || $item->tag == 'VIP_STATUS') {?> 
+
                                 <tr class="draggable" rel="{{ $item->uid }}">
 									<td>
 										<input type="hidden" class="custom_order"
@@ -98,7 +100,7 @@
 										@endif
 									</td>
                                 </tr>
-
+                                 <?php } ?>
 								@if (count($item->fieldOptions))
 									<tr class="child" parent="{{ $item->uid }}">
 										<td></td>

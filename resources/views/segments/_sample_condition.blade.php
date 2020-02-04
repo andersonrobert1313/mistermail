@@ -2,9 +2,11 @@
 	<div class="col-md-4">
 		<div class="form-group">
 			<select class="select condition-field-select" name="conditions[__index__][field_id]">
-				<optgroup label="{{ trans('messages.list_fields') }}">
+				<optgroup label="Contact Info">
 					@foreach($list->getFields as $field)
+					<?php if($field->tag == 'EMAIL' || $field->tag == 'STATUS'|| $field->tag == 'ORDERS_COUNT'|| $field->tag == 'TOTAL_SPENT'|| $field->tag == 'COUNTRY' ){ ?>
 						<option value="{{ $field->uid }}">{{ $field->label }}</option>
+					<?php }?>
 					@endforeach
 				</optgroup>
 				<optgroup label="{{ trans('messages.email_verification') }}">

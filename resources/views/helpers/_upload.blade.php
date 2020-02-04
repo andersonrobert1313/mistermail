@@ -3,8 +3,20 @@
         <h3 class="text-semibold text-teal-800">{{ trans('messages.profile_photo') }}</h3>
         <div class="media profile-image">
             <div class="preview col-md-2" id="{{$dragId}}">
-                <a href="#" class="upload-media-container radius-0 pre-upload-photo">
-                    <img preview-for="image" empty-src="{{ URL::asset('assets/images/placeholder.jpg') }}" src="{{ $src }}" class="img-circle" alt="">
+                <a style="background-color:#51bd8b" href="#" class="upload-media-container radius-0 pre-upload-photo">
+                     <?php 
+                    $first_name='';
+                    $last_name='';
+                    foreach ($list->getFields as $field) {
+                        if($field->tag == 'NAME')
+                        {
+                            $first_name=$values[$field->tag];
+                        }
+                        $name=explode(" ", $first_name);
+                    }?>
+<!--                     <img preview-for="image" empty-src="{{ URL::asset('assets/images/placeholder.jpg') }}" src="{{ $src }}" class="img-circle" alt="">
+ -->
+  -->                    <h1 style="color: white;text-align: center;letter-spacing: -4px;margin-top:-6px">{{ @(ucfirst(substr($name[0],0,1)))  }} {{ @(ucfirst(substr($name[1],0,1)))  }}</h1>
 
                 </a>
                 <span onclick="$('input[name=image]').trigger('click')"  class="edit-photo text-center"><i class="icon-pencil"></i></span>

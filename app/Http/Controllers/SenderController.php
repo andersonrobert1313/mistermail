@@ -228,6 +228,8 @@ class SenderController extends Controller
 
             $sender->save();
 
+                    //echo "<pre>"; print_r($sender);die;
+
             if (!$sender->isVerified()) {
                 if ($sender->type == Sender::VERIFICATION_TYPE_ACELLE) {
                     // Set pending and return to show with guide
@@ -236,10 +238,9 @@ class SenderController extends Controller
                 } else if ($sender->type = Sender::VERIFICATION_TYPE_AMAZON_SES) {
                     // Wroking with Amazon SES here...
                     $sender->setPending();
-
                     // Trigger AWS API to send a verification email
-                    $sender->sendVerificationEmail();
-
+                    $response=$sender->sendVerificationEmail();
+                    //echo "<pre>"; print_r($response);die;
                     return redirect()->action('SenderController@show', $sender->uid);
                 }
             } else {

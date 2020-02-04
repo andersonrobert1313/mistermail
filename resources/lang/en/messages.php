@@ -10,8 +10,8 @@
   'stay_logged_in' => 'Stay logged in',
   'forgot_password' => 'Forgot Password?',
   'login' => 'Log In',
-  'copy_right_light' => '© 2020. <span class="text-white">Acelle Email Marketing Application</span> by <a href="http://acellemail.com" class="text-white" target="_blank">acellemail.com</a>',
-  'copy_right' => '© 2020. Acelle Email Marketing Application by <a title="Go to AcelleMail home page." class="xtooltip" href="http://acellemail.com" class="" target="_blank">acellemail.com</a>',
+  'copy_right_light' => '© 2020. <span class="text-white">Mister Mail Marketing Application</span> by <a href="http://themistermail.com" class="text-white" target="_blank">themistermail.com</a>',
+  'copy_right' => '© 2020. Mister Mail Marketing Application by <a title="Go to MisterMail home page." class="xtooltip" href="http://themistermail.com" class="" target="_blank">themistermail.com</a>',
   'send_password_reset_link' => 'Send Password Reset Link',
   'password_reset' => 'Password Reset',
   'password_reset.help' => 'We\'ll email you instructions on how to reset your password.',
@@ -539,7 +539,7 @@
   'sending_domain.verified' => 'verified',
   'sending_domain.pending' => 'pending',
   'languages' => 'Languages',
-  'languages.wording' => 'Acelle Mail multilingual support feature allows you to use different, translated versions of the web application. You can switch to a preferred language or even add your own one. You can customize the user interface (UI) text by translating it the way you desire.',
+  'languages.wording' => 'Mister Mail multilingual support feature allows you to use different, translated versions of the web application. You can switch to a preferred language or even add your own one. You can customize the user interface (UI) text by translating it the way you desire.',
   'language.created' => 'Language was successfully created',
   'language.updated' => 'Language was successfully updated',
   'languages.deleted' => 'One or more languages were successfully deleted',
@@ -631,7 +631,7 @@
   'total_items_count' => 'From <span class="text-teal-600">:from</span> to <span class="text-teal-600">:to</span>. Total <span class="text-teal-600">:count</span> records',
   'clicked_at' => 'Clicked at',
   'sending_logs' => 'Sending logs',
-  'used_quota' => 'Credits used',
+  'used_quota' => 'Usage limits',
   'unsubscribe_log' => 'Unsubscribe log',
   'open_map' => 'Opens - Map',
   'last_open' => 'Last open',
@@ -1499,7 +1499,7 @@
   'update_subscription' => 'Update subscription',
   'subscription.wording' => 'This feature allows you to monitor the details of your customers\' subscription. You can approve the payment, enable or disable a subscription. You can also create new subsciptions for your existing customers',
   'registration_confirmation_email' => 'Registration confirmation email',
-  'registration_confirmation_email_subject' => 'Acelle Mail - Registration confirmation',
+  'registration_confirmation_email_subject' => 'Mister Mail - Registration confirmation',
   'activation_email_sent_content' => '<p>We need to confirm your email address to complete the registration process.
     To complete the registration process, please click the link in the email we just sent you.</p>',
   'activation_email_resent_content' => '<p>Please click the link in the email we just sent you.</p>',
@@ -1526,8 +1526,8 @@
   'check_your_subscriptions' => 'Check your subscriptions',
   'to' => 'To',
   'days_remain' => 'Day remaining|Days remaining',
-  'need_a_account_create_an_one' => 'Need an Acelle Mail account? <a href=":link" class="text-info">Create an account</a>',
-  'signin_if_has_account' => 'Already have a Acelle Mail account? <a href=":link" class="text-info">Log in here</a>',
+  'need_a_account_create_an_one' => 'Need an Mister Mail account? <a href=":link" class="text-info">Create an account</a>',
+  'signin_if_has_account' => 'Already have a Mister Mail account? <a href=":link" class="text-info">Log in here</a>',
   'get_started' => 'Get Started!',
   'your_subscriptions' => 'Your subscriptions',
   'these_are_your_current_plans' => 'These are your current plans:',
@@ -1659,7 +1659,7 @@
   'license.license_types' => 'License types',
   'license.no_license' => 'You do not enter a valid license yet. Please purchase a license and enter it in the form below to continue using the product',
   'license_guide' => '
-      <p>When you purchase Acelle Mail from Envato website, you are actually purchasing a license to use the product.<br>There are 2 types of license that are issued</p>
+      <p>When you purchase Mister Mail from Envato website, you are actually purchasing a license to use the product.<br>There are 2 types of license that are issued</p>
       <h4>Regular License</h4>
       <p>
         All features are available, for a single end product which end users are NOT charged for
@@ -1671,7 +1671,7 @@
   ',
   'license_label_extended' => 'Extended',
   'license_label_normal' => 'Normal',
-  'your_current_license' => 'Thank you for purchasing Acelle Mail! Below is your license key, also known as Purchase Code. Your license type is',
+  'your_current_license' => 'Thank you for purchasing Mister Mail! Below is your license key, also known as Purchase Code. Your license type is',
   'verify_license' => 'Verify',
   'license_tab' => 'License',
   'submit' => 'Submit',
@@ -1711,11 +1711,11 @@
   'file' => 'FILE',
   'file.uploaded' => 'File was successfully uploaded.',
   'current_plan' => 'Current plan',
-  'current_plan_intro' => '<p>Thank you for doing your email marketing with Acelle Mail.
+  'current_plan_intro' => '<p>Thank you for doing your email marketing with Mister Mail.
       You are currently subscribed to the <strong>:plan</strong> plan.
       Your subscription will expire in <strong>:remain</strong>, on <strong>:end_at</strong></p>
       <p>Please find your current plan details below</p>',
-  'current_plan_intro_unlimited' => '<p>Thank you for doing your email marketing with Acelle Mail.
+  'current_plan_intro_unlimited' => '<p>Thank you for doing your email marketing with Mister Mail.
       You are currently subscribed to the <strong>:plan</strong> plan.</p>
       <p>Please find your current plan details below</p>',
   'plan_name' => 'Plan name',
@@ -1727,7 +1727,7 @@
       Please finish the payment or wait for the payment confirmation to activate your subscription',
   'purchasing_intro_braintree_credit_card' => 'Please fill out the below information so we can setup your account for puchasing the <a><strong>:plan plan</strong></a> with the pay by Credit Card option
           . Your plan price is: <a><strong>:price</strong></a>',
-  'subscribe_to_a_plan_intro' => 'Thank you for signing up with Acelle Mail. You are not currently subscribed to any plan yet. Below are the available plans for you to choose from:',
+  'subscribe_to_a_plan_intro' => 'Thank you for signing up with Mister Mail. You are not currently subscribed to any plan yet. Below are the available plans for you to choose from:',
   'subscribe_plan' => 'Subscribe',
   'purchasing_intro_braintree_paypal' => 'Please click the PayPal checkout button below to proceed with the payment for your subscription to <a><strong>:plan plan</strong></a>, the price is <a><strong>:price</strong></a>',
   'next_plan' => 'Next plan',
@@ -1741,10 +1741,10 @@
   'registration_recaptcha' => 'Registration captcha',
   'setting.registration_recaptcha.help' => 'Enable captcha for registration to block spammers and bots from accessing the webapp.',
   'frontend_dashboard_hello' => 'Hello, :name!',
-  'frontend_dashboard_welcome' => 'Welcome back to your account dashboard. Check out your email campaigns\' performance statistics and personalized tips from Acelle Mail.',
+  'frontend_dashboard_welcome' => 'Welcome back to your account dashboard. Check out your email campaigns\' performance statistics and personalized tips from Mister Mail.',
   'empty_record_message' => 'There are no records yet!',
   'backend_dashboard_hello' => 'Hello, :name!',
-  'backend_dashboard_welcome' => 'Welcome back to admin dashboard. Check out these system statistics and notifications from Acelle Mail.',
+  'backend_dashboard_welcome' => 'Welcome back to admin dashboard. Check out these system statistics and notifications from Mister Mail.',
   'resources_statistics' => 'Resources statistics',
   'sending_limit' => 'Sending limit',
   'resources_statistics_intro' => 'An overview of system resource usage',
@@ -1893,15 +1893,15 @@
   'upgrade.button.cancel' => 'Cancel',
   'upgrade.button.upgrade_now' => 'Yes, upgrade now',
   'upgrade.button.' => '',
-  'upgrade.upgrade_confirm' => 'Acelle Mail is going to upgrade the application. Please click the confirm button to proceed',
+  'upgrade.upgrade_confirm' => 'Mister Mail is going to upgrade the application. Please click the confirm button to proceed',
   'upgrade.upgrade_cancel' => 'Are you sure you want to cancel the upgrade?',
-  'upgrade.wording.upgrade' => 'Your are running on Acelle Mail :current, a newer version is available: :new<br>Do you want to proceed with the upgrade?',
+  'upgrade.wording.upgrade' => 'Your are running on Mister Mail :current, a newer version is available: :new<br>Do you want to proceed with the upgrade?',
   'upgrade.title.current' => 'Your current version',
   'upgrade.title.upgrade_confirm' => 'Upgrade confirmation',
-  'upgrade.wording.upload' => 'Your are currently running on Acelle Mail :current. To upgrade your application, please download the latest build from <code><a target="_blank" href="https://codecanyon.net/item/acelle-email-marketing-web-application/17796082">codecanyon.net</a></code>, then you can find the upgrade package located at <code>[acellemail source]/upgrade/patch-4.x.x.bin</code>, upload it using the form below',
-  'upgrade.alert.upgrade_success' => 'Congratulations! You have successfully upgraded to the new version of Acelle Mail.',
+  'upgrade.wording.upload' => 'Your are currently running on Mister Mail :current. To upgrade your application, please download the latest build from <code><a target="_blank" href="https://codecanyon.net/item/Mister-email-marketing-web-application/17796082">codecanyon.net</a></code>, then you can find the upgrade package located at <code>[Mistermail source]/upgrade/patch-4.x.x.bin</code>, upload it using the form below',
+  'upgrade.alert.upgrade_success' => 'Congratulations! You have successfully upgraded to the new version of Mister Mail.',
   'upgrade.alert.cancel_success' => 'Upgrade has been canceled',
-  'upgrade.alert.upload_success' => 'A new version of Acelle Mail was successfully uploaded. You can now review the changes and proceed with the upgrade',
+  'upgrade.alert.upload_success' => 'A new version of Mister Mail was successfully uploaded. You can now review the changes and proceed with the upgrade',
   'upgrade_manager' => 'Upgrade Manager',
   'campaign_intro_regular' => 'Campaign with HTML email content as well as images, links. This is the most common type.',
   'campaign_intro_plain-text' => 'Send a plain-text email without link tracking, images, or HTML.',
@@ -1994,7 +1994,7 @@
   'plan_option.own_sending_server' => 'Use own sending servers',
   'plan_option.own_sending_server.intro' => 'This is the extended setting for advanced users who want to manage their own sending services. Users subscribing to this plan need to add and manage their own sending servers',
   'plan_option.sub_account' => 'Use a sub-account of system\'s sending servers',
-  'plan_option.sub_account.intro' => 'SendGrid supports creating sub-accounts that belong to a parent account. Sub-accounts are provided in order to help you segment your email sending and API activity. Acelle Mail will automatically create a separate sub-account for any user subscribing to the plan. Select one SendGrid master account below to create sub-accounts from',
+  'plan_option.sub_account.intro' => 'SendGrid supports creating sub-accounts that belong to a parent account. Sub-accounts are provided in order to help you segment your email sending and API activity. Mister Mail will automatically create a separate sub-account for any user subscribing to the plan. Select one SendGrid master account below to create sub-accounts from',
   'select_sending_servers' => 'Select sending servers',
   'select_sending_server_with_subaccount' => 'Select sending server with subaccount',
   'plan_option.there_no_subaccount_sending_server' => '<span class="text-semibold">ERROR:</span> There are no sending servers for subaccount creation.',
@@ -2060,7 +2060,7 @@
   'form_page.use_outside_url' => 'Custom URL',
   'form_page.use_outside_url.intro' => 'Redirect to the URL below',
   'form_page.use_built_in_page' => 'Built-in page',
-  'form_page.use_built_in_page.intro' => 'Use your Acelle Mail page',
+  'form_page.use_built_in_page.intro' => 'Use your Mister Mail page',
   'form_page.enter_outside_url' => 'http://your-url.com',
   'campaign.overview_statistics' => 'Statistics',
   'list.overview_statistics' => 'Statistics',
@@ -2088,10 +2088,10 @@
   'admin.notification.cronjob_not_active' => 'Application\'s CronJob has not been executed during the last :cronjob_min_interval. Last executed at :cronjob_last_executed',
   'admin.notification.cronjob_title' => 'CronJob',
   'admin.notification.system_url_title' => 'Application URL',
-  'admin.notification.system_url_not_match' => 'The current application URL (:current) does not match with the one stored in Acelle Mail\'s cache (:cached). Please go to Admin > Setting > All Settings > System URL to verify and update your setting cache',
-  'admin.settings.system_urls.not_match' => 'WARNING: The current application URL <code>:current</code> does not match with the one stored in Acelle Mail\'s cache <code>:cached</code>. Click the button below to update Acelle Mail\'s cache',
+  'admin.notification.system_url_not_match' => 'The current application URL (:current) does not match with the one stored in Mister Mail\'s cache (:cached). Please go to Admin > Setting > All Settings > System URL to verify and update your setting cache',
+  'admin.settings.system_urls.not_match' => 'WARNING: The current application URL <code>:current</code> does not match with the one stored in Mister Mail\'s cache <code>:cached</code>. Click the button below to update Mister Mail\'s cache',
   'admin.settings.system_urls.title' => 'Application URL',
-  'admin.settings.system_urls.current_urls_wording' => 'Below are the current application URLs stored in Acelle Mail cache',
+  'admin.settings.system_urls.current_urls_wording' => 'Below are the current application URLs stored in Mister Mail cache',
   'admin.settings.edit_app_settings' => 'Edit application settings',
   'advanced_settings' => 'Advanced settings',
   'setting.name' => 'Name',
@@ -2119,20 +2119,20 @@
   'sender.deleted' => 'ender was successfully deleted',
   'sender.type' => 'Type',
   'sender.verify_sender' => 'Verify sender',
-  'sender.type.acelle' => 'Acelle Mail App',
+  'sender.type.Mister' => 'Mister Mail App',
   'sender.type.amazon_ses' => 'Amazon SES',
   'sender.status.new' => 'new',
   'sender.status.pending' => 'pending',
   'sender.status.verified' => 'verified',
   'sender.verification_status' => 'Verification status',
-  'sender.status_info.acelle.pending' => 'To verify <span class="text-bold">:email</span> against :type,
+  'sender.status_info.Mister.pending' => 'To verify <span class="text-bold">:email</span> against :type,
     you will need to add & verify the domain by clicking <a class="text-bold" href=":link">[here]</a> to go to the Sending Domain dashboard.
     Once you have added and verified your domain,
     the sender <code class="text-nowrap">:name &lt;:email&gt;</code> will automatically be set as verified.',
   'sender.status_info.amazon_ses.pending' => 'A verification email has been sent to your email address <span class="text-bold">:email</span>.
     Please check your mailbox and click on the confirmation link.',
   'sender.status_info.amazon_ses.verified' => 'Email verified!',
-  'sender.status_info.acelle.verified' => 'Email verified!',
+  'sender.status_info.Mister.verified' => 'Email verified!',
   'sender.verify_toggle.verified' => 'Click here to verify <span class="text-bold">:email</span> again',
   'sender.verify_toggle.pending' => 'Click here to change verification type',
   'sender.dropbox.empty' => '(empty)',
@@ -2141,7 +2141,7 @@
   'sender.dropbox.reply.error' => 'The email address you entered is not verified yet.',
   'sender.type.none' => 'none',
   'sender.view' => 'View',
-  'sender.wording' => 'Acelle Mail requires that you verify your identities (the domains or email addresses that you send email from) to confirm that you own them, and to prevent unauthorized use',
+  'sender.wording' => 'Mister Mail requires that you verify your identities (the domains or email addresses that you send email from) to confirm that you own them, and to prevent unauthorized use',
   'senders.empty_verified_domain_sender.warning' => 'You have no verified sender.
     Add and verify a <a href=":domain_link" target="blank">[domain]</a> or
     <a href=":sender_link" target="blank">[email address]</a> to send email on behalf of.',
@@ -2193,7 +2193,7 @@
   'sending_server.test_connection' => 'Test Connection',
   'sending_server.send_a_test_email' => 'Send A Test Email',
   'sending_servers.fitness' => 'Probability',
-  'sending_servers.fitness.explain' => 'When it comes to deliver an email, if there are more than one sending servers available, Acelle will pick one randomly. The higher probability value a sending server has, the more likely it is selected',
+  'sending_servers.fitness.explain' => 'When it comes to deliver an email, if there are more than one sending servers available, Mister will pick one randomly. The higher probability value a sending server has, the more likely it is selected',
   'sending_servers.sending_limit.phrase' => ':quota_value emails per :quota_base :quota_unit',
   'sending_server.quota.unlimited' => 'Unlimited',
   'sending_servers.sending_identity.mailgun.intro' => 'The following domains were verified against your Mailgun account.
@@ -2256,19 +2256,19 @@
   'plan.sending_identify.intro.sparkpost-smtp' => 'Your plan is setup to use Sparkpost as primary delivery method. Users who subscribe to this plan must use the following identities as their FROM email address. Edit your sending server setting to add more identities',
   'sending_server.testing' => 'Checking server connection...',
   'sending_server.test_success' => 'The sending server is valid',
-  'sending_servers.php-mail.intro' => 'Configure Acelle Mail to send emails directly through the hosting server\'s PHP
+  'sending_servers.php-mail.intro' => 'Configure Mister Mail to send emails directly through the hosting server\'s PHP
       <code>mail()</code> function. Make sure the function is not disabled on your hosting server',
-  'sending_servers.sendmail.intro' => 'Configure Acelle Mail to send emails directly through the hosting server\'s <code>sendmail</code> program. Make sure the function is already installed on your hosting server.',
+  'sending_servers.sendmail.intro' => 'Configure Mister Mail to send emails directly through the hosting server\'s <code>sendmail</code> program. Make sure the function is already installed on your hosting server.',
   'sending_server.php-mail.check_php_mail' => 'Check PHP Mail',
   'sending_servers.local_identity.intro' => 'Specify the delivery domains that users can use. That is, user can specify a
       FROM email address that does match one of the following domains',
   'sending_server.identity_type.domain' => 'domain',
   'sending_server.identity_type.email' => 'email',
   'sending_serbers.php-mail.allow_verify.intro' => 'You can also allow your users to verify an identity on their own.
-      That is, user can add their own email addresses or domains and verify against Acelle Mail.
+      That is, user can add their own email addresses or domains and verify against Mister Mail.
       Once verified, user can use their own FROM email address when sending',
-  'allow_verify_domain_against_acelle' => 'Allow verifying user\'s own domains against Acelle Mail',
-  'allow_verify_email_against_acelle' => 'Allow verifying user\'s own email addresses Acelle Mail',
+  'allow_verify_domain_against_Mister' => 'Allow verifying user\'s own domains against Mister Mail',
+  'allow_verify_email_against_Mister' => 'Allow verifying user\'s own email addresses Mister Mail',
   'allow_unverified_from_email' => 'Allow unverified FROM email addresses',
   'plans.send_via.wording' => 'Use :server for email delivery',
   'plans.send_via.empty' => 'No sending server selected',
@@ -2318,7 +2318,7 @@
   'plan.speed_limit' => 'Speed limit',
   'plan.speed_limit.intro' => 'Limit sending speed to protect your sending reputation',
   'plan.set_a_limit' => 'Set a limit',
-  'plan.process_limit.intro' => 'Acelle Mail supports forking multiple processes for sending multiple times faster in terms of
+  'plan.process_limit.intro' => 'Mister Mail supports forking multiple processes for sending multiple times faster in terms of
     email throughput. However, it will consume multiple times more CPU and memory as a tradeoff.',
   'plan.resource.intro' => 'Set up your plan\'s quota to limit the resources or services that users subscribed to this plan can use',
   'plan.enabled_email_footer' => 'Enable email footer',
@@ -2352,7 +2352,7 @@
   'plan.payment.intro' => 'Connect your plan to a payment gateway like Stripe or Braintree/Paypal,
     to accept payment online',
   'payment_gateways' => 'Payment gateways',
-  'payment_gateways.wording' => 'To accept payments from your Acelle users, you will need to use a supported payment gateway. Please choose  your preferred payment gateway from the list below',
+  'payment_gateways.wording' => 'To accept payments from your Mister users, you will need to use a supported payment gateway. Please choose  your preferred payment gateway from the list below',
   'payment.status.active' => 'active',
   'payment.status.inactive' => 'inactive',
   'payments.cash' => 'Cash',
@@ -2407,7 +2407,7 @@
   'payment.braintree.merchant_id' => 'Merchant ID',
   'payment.braintree.public_key' => 'Public key',
   'payment.braintree.private_key' => 'Private key',
-  'payment.braintree.wording' => 'Braintree is a full-stack payments platform that makes it easy to accept payments in Acelle Mail. You will need to sign up for a Braintree account, obtain your integration ID and keys and set it up below',
+  'payment.braintree.wording' => 'Braintree is a full-stack payments platform that makes it easy to accept payments in Mister Mail. You will need to sign up for a Braintree account, obtain your integration ID and keys and set it up below',
   'purchasing_intro_braintree' => 'Please fill out the below information so we can setup your account for puchasing the <a><strong>:plan plan</strong></a> with the Pay with Braintree option
       . Your plan price is: <a><strong>:price</strong></a>',
   'payment.braintree.request_payment_method' => 'Request payment method',
@@ -2588,9 +2588,9 @@
   'plan.pricing' => 'Pricing',
   'plan.starting_at' => 'Starting At',
   'plan.select' => 'Select',
-  'plan.review.wording' => 'Thank you for subscribing to Acelle Mail. Please review your selected plan below and procceed with the payment and get started.',
+  'plan.review.wording' => 'Thank you for subscribing to Mister Mail. Please review your selected plan below and procceed with the payment and get started.',
   'payment.proceed_with_payment' => 'Proceed with Payment',
-  'payment.agree_service_intro' => 'By clicking the <strong><i>Proceed with payment</i></strong> button, you are paying for :plan plan, and you agree to Acelle Mail <i>Term of Use</i> and <i>Privacy Policy</i>.',
+  'payment.agree_service_intro' => 'By clicking the <strong><i>Proceed with payment</i></strong> button, you are paying for :plan plan, and you agree to Mister Mail <i>Term of Use</i> and <i>Privacy Policy</i>.',
   'plan.review' => 'Plan review',
   'payment.coinpayments.receive_currency' => 'Receive Currency Code',
   'subscription.status.active_pending' => 'Update pending',
@@ -2653,10 +2653,10 @@
   'subscription.change_plan.select_below' => 'Select the plan you want to change below. Changing plan can be un-done so make sure you want to change.',
   'subscription.select_a_plan' => 'Select a Plan',
   'plan.current_subscribed' => 'Current subscribed',
-  'create_your_account' => 'Create your Acelle Email account',
-  'register.intro' => 'Manage your contacts, generate leads, run a marketing campaign,... Join us at Acelle Mail to enjoy doing
+  'create_your_account' => 'Create your Mister Mail account',
+  'register.intro' => 'Easily manage your contacts, generate leads, run a marketing campaign,send automated emails and much more... Join us at Mister Mail to enjoy doing
     every day sales & marketing without any hassle. If you already have an account? <a href=":login">Login</a>',
-  'register.agreement_intro' => 'By clicking the "Get Started!" button, you are creating a Acelle Mail account,
+  'register.agreement_intro' => 'By clicking the "Get Started!" button, you are creating a Mister Mail account,
     and you agree to Mailchimp\'s Terms of Use and Privacy Policy.',
   'email_confirmation' => 'Email Confirmation',
   'sending_server.added' => 'added',
@@ -2667,13 +2667,35 @@
   'payment_gateway.braintree.mapping_updated' => 'Braintree plans were mapped',
   'payment.setting' => 'Setting',
   'automation.create' => 'Add new',
+  'automation.trigger.browse-abandon' => 'Browse Abandon',
+  'automation.trigger.browse-abandon.desc' => 'Send a series of emails when a visitor abandon`s their cart.',
+  'automation.trigger.browse-abandon.intro' => 'Recover abandoned carts with a 3 email series approach. Quickly launch our done for you automation or adjust the number of emails and time delays to your liking.',
+    'automation.trigger.after-order' => 'After Order',
+  'automation.trigger.after-order.desc' => 'Send a series of emails when a visitor abandon`s their cart.',
+  'automation.trigger.after-order.intro' => 'Recover abandoned carts with a 3 email series approach. Quickly launch our done for you automation or adjust the number of emails and time delays to your liking.',
+      'automation.trigger.winback-after-order' => 'Win back - Made an order',
+  'automation.trigger.winback-after-order.desc' => 'Send a series of emails when a visitor abandon`s their cart.',
+  'automation.trigger.winback-after-order.intro' => 'Recover abandoned carts with a 3 email series approach. Quickly launch our done for you automation or adjust the number of emails and time delays to your liking.',
+      'automation.trigger.winback-no-order' => 'Win back - No order',
+  'automation.trigger.winback-no-order.desc' => 'Send a series of emails when a visitor abandon`s their cart.',
+  'automation.trigger.winback-no-order.intro' => 'Recover abandoned carts with a 3 email series approach. Quickly launch our done for you automation or adjust the number of emails and time delays to your liking.',
+  
+   'automation.trigger.abandon-cart' => 'Abandon cart',
+  'automation.trigger.abandon-cart.desc' => 'Send a series of emails when a visitor abandon`s their cart.',
+  'automation.trigger.abandon-cart.intro' => 'Recover abandoned carts with a 3 email series approach. Quickly launch our done for you automation or adjust the number of emails and time delays to your liking.',
   'automation.automation_trigger' => 'Automation Trigger',
   'automation.trigger.intro' => 'A trigger is the action that starts an automation. For example,
-    Acelle Mail can trigger an automated email when someone subscribes to your audience or purchases a certain product.
-    Acelle Mail offers a wide selection of preset automation types with built-in triggers, ranging from abandoned
+    Mister Mail can trigger an automated email when someone subscribes to your audience or purchases a certain product.
+    Mister Mail offers a wide selection of preset automation types with built-in triggers, ranging from abandoned
     cart emails to a simple welcome message.',
   'automation.trigger.welcome-new-subscriber' => 'Welcome new subscribers',
   'automation.trigger.' => 'Trigger',
+    'automation.brief-intro.abandon-cart' => 'Trigger when item added to cart',
+    'automation.brief-intro.browse-abandon' => 'Trigger when item added to cart',
+'automation.brief-intro.after-order' => 'Trigger when item added to cart',
+'automation.brief-intro.winback-after-order' => 'Trigger when item added to cart',
+'automation.brief-intro.winback-no-order' => 'Trigger when item added to cart',
+
   'automation.trigger.say-happy-birthday' => 'Say `Happy birthday`',
   'automation.trigger.subscriber-added-date' => 'Subscriber added date',
   'automation.trigger.specific-date' => 'Specific date',
@@ -2685,7 +2707,7 @@
   'automation.trigger.subscriber-added-date.desc' => 'Send an email based on when a subscriber joined your audience.',
   'automation.trigger.specific-date.desc' => 'Send a one-time message based on an individual date field, like an appointment.',
   'automation.trigger.say-goodbye-subscriber.desc' => 'Send an email to say sorry when a subscriber unsubscribe from your audience.',
-  'automation.trigger.api-3-0.desc' => 'Trigger an email series with an API call via Acelle Mail, if you\'ve got a developer on hand.',
+  'automation.trigger.api-3-0.desc' => 'Trigger an email series with an API call via Mister Mail, if you\'ve got a developer on hand.',
   'automation.trigger.welcome-new-subscriber.intro' => 'Trigger when user subscribes to your list. Normally, it is recommended that you send a
         welcome email to warmly greet your new subscriber as well as offer him/her your products or service',
   'automation.trigger.say-happy-birthday.intro' => 'Celebrate with an exclusive offer or cheerful message that sends based
@@ -2693,7 +2715,7 @@
   'automation.trigger.subscriber-added-date.intro' => 'Automation starts yearly on your subscribers joining date. Sometimes you may want to trigger the automation prior to the date. You can schedule it accordingly below',
   'automation.trigger.specific-date.intro' => 'Start a marketing campaign immediately or schedule it for a particular date/time. Automation will be triggered accordingly for all contacts in the selected mail list',
   'automation.trigger.say-goodbye-subscriber.intro' => 'Start the automation when a subscriber unsubscribes from your audience. Normally you may want to send a follow email asking for the reason ask well as offering re-subscription benefits.',
-  'automation.trigger.api-3-0.intro' => 'Automation is triggered manually or from another application using Acelle Mail API 3.0. Make an HTTP POST request to the API endpoint below',
+  'automation.trigger.api-3-0.intro' => 'Automation is triggered manually or from another application using Mister Mail API 3.0. Make an HTTP POST request to the API endpoint below',
   'automation.trigger.select_confirm' => 'Confirm',
   'automation.add_an_action' => 'Add an Action',
   'automation.action.intro' => 'Streamline your communication and personlize each customer\' experience. Use automation
@@ -2709,9 +2731,9 @@
   'automation.action.condition.icon' => 'code',
   'automation.action.wait.intro' => 'Set your automation workflow wait for a while before procceeding with next action.
         How long do you want to wait, please choose below.',
-  'automation.action.send-an-email.intro' => 'Choose one of the conditions below for your workflow. Acelle Mail will evaluate the condition
+  'automation.action.send-an-email.intro' => 'Choose one of the conditions below for your workflow. Mister Mail will evaluate the condition
         and branch off your workflow accordingly.',
-  'automation.action.condition.intro' => 'Choose one of the conditions below for your workflow. Acelle Mail will evaluate the condition
+  'automation.action.condition.intro' => 'Choose one of the conditions below for your workflow. Mister Mail will evaluate the condition
         and branch off your workflow accordingly.',
   'automation.action.set_up_your_condition' => 'Set up your condition',
   'automation.overview.contacts' => 'Contacts',
@@ -2724,7 +2746,7 @@
   'n_a' => 'N/A',
   'campaign.content_management' => 'Content Management',
   'campaign.email_content' => 'Email Content',
-  'campaign.email_content.intro' => 'Create your email from scratch or start from Acelle Mail per-built templates / themes.
+  'campaign.email_content.intro' => 'Create your email from scratch or start from Mister Mail per-built templates / themes.
         Customize the content the way you desire with our powerful but easy-to-use HTML email builder.',
   'campaign.template.from_layout' => 'From a Template Layout',
   'campaign.template.from_layout.intro' => 'Craft your email based off a pre-built layout we made for you',
@@ -2807,7 +2829,7 @@
   'automation.email.confirm' => 'Confirm',
   'automation.template.content_management' => 'Content Management',
   'automation.template.email_content' => 'Email Content',
-  'automation.template.email_content.intro' => 'Create your email from scratch or start from Acelle Mail per-built templates / themes.
+  'automation.template.email_content.intro' => 'Create your email from scratch or start from Mister Mail per-built templates / themes.
         Customize the content the way you desire with our powerful but easy-to-use HTML email builder.',
   'automation.template.from_layout' => 'From a Template Layout',
   'automation.template.from_layout.intro' => 'Craft your email based off a pre-built layout we made for you',
@@ -2824,6 +2846,7 @@
   'automation.action.wait.title' => 'Wait for :number :time',
   'automation.action.condition.read_email.title' => 'Condition: Open previous email?',
   'automation.action.condition.click_link.title' => 'Condition: Click on a link?',
+  'automation.action.condition.makeapurchase.title' => 'Condition: Contact did not make a Purchase?',
   'automation.send_a_email' => 'Send email `:title`',
   'automation.email.created' => 'Email was successfully created',
   'automation.email.updated' => 'Email was successfully updated',
@@ -2929,6 +2952,13 @@
   'automation.trigger.icon.specific-date' => 'calendar_today',
   'automation.trigger.icon.say-goodbye-subscriber' => 'launch',
   'automation.trigger.icon.api-3-0' => 'code',
+    'automation.trigger.icon.abandon-cart' => 'launch',
+    'automation.trigger.icon.browse-abandon' => 'playlist_add',
+    'automation.trigger.icon.after-order' => 'launch',
+'automation.trigger.icon.winback-after-order' => 'playlist_add',
+'automation.trigger.icon.winback-no-order' => 'launch',
+
+
   'automation.profile.remove_contact' => 'Remove contact',
   'automation.profile.remove_contact.confirm' => 'You are about to remove <span class="font-weight-semibold">:name</span> contact',
   'automation.contact.deleted' => 'Automation contact was successfully removed.',
@@ -2956,11 +2986,21 @@
   'automation.email.summary.content.update' => 'Update',
   'automation.email.summary.setting' => 'Settings',
   'automation.delay.immediately' => 'Immediately',
+  'automation.delay.minute' => '1 minute|:count minute',
+  'automation.delay.hours' => '1 hour|:count hours',
   'automation.delay.day' => '1 day|:count days',
   'automation.delay.week' => '1 week|:count weeks',
   'automation.delay.month' => '1 month|:count months',
   'automation.wait.delay.2 weeks' => 'Wait for 2 weeks',
   'automation.wait.delay.0' => 'Immediately',
+  'automation.wait.delay.1 minute' => 'Wait for 1 minute',
+  'automation.wait.delay.1 hour' => 'Wait for 1 hour',
+  'automation.wait.delay.2 hours' => 'Wait for 2 hours',
+  'automation.wait.delay.4 hours' => 'Wait for 4 hours',
+   'automation.wait.delay.6 hours' => 'Wait for 6 hours',
+   'automation.wait.delay.8 hours' => 'Wait for 8 hours',
+   'automation.wait.delay.10 hours' => 'Wait for 10 hours',
+   'automation.wait.delay.12 hours' => 'Wait for 12 hours',
   'automation.wait.delay.1 day' => 'Wait for 1 day',
   'automation.wait.delay.2 days' => 'Wait for 2 days',
   'automation.wait.delay.3 days' => 'Wait for 3 days',
@@ -2998,6 +3038,11 @@
   'automation.contact.tag.removed' => '<span class="font-weight-semibold">:tag</span> tag were removed',
   'automation.profile.click_to_add_tag' => 'Add tag',
   'automation.trigger.tree.welcome-new-subscriber' => 'New contact subscribes to mail list',
+   'automation.trigger.tree.abandon-cart' => 'Abandon cart',
+      'automation.trigger.tree.browse-abandon' => 'Browse Abandon',
+'automation.trigger.tree.after-order' => 'After Order',
+'automation.trigger.tree.winback-after-order' => 'Win back - Made an order',
+'automation.trigger.tree.winback-no-order' => 'Win back - No order',
   'automation.trigger.tree.say-happy-birthday' => 'Trigger on contacts\' date of birth',
   'automation.trigger.tree.say-goodbye-subscriber' => 'Contact unsubscribes from mail list',
   'automation.trigger.tree.api-3-0' => 'Trigger manually via API 3.0 request',
@@ -3017,7 +3062,7 @@
   'automation.email.from.placeholder' => 'E.g. noreply@domain.com',
   'automation.started.title' => 'Automation Started',
   'automation.started.desc' => 'Congratulations! Your automated campaign is now up and running.
-    Acelle Mail keeps track of your individual contacts activities as well as overall campaign performance.
+    Mister Mail keeps track of your individual contacts activities as well as overall campaign performance.
     Check out your Insight and Statistics reports for more details.',
   'automation.email.change_template.confirm' => 'Changing template will remove current email content with customiztions.
     This can be undone.',

@@ -21,8 +21,8 @@
             <li><a href="{{ action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
             <li><a href="{{ action("TemplateController@index") }}">{{ trans('messages.templates') }}</a></li>
         </ul>
-        <h1>
-            <span class="text-semibold">{{ trans('messages.template.new_template') }}</span>
+        <h1 style="color: #335eea !important;">
+            <span class="text-semibold"><i class="icon icon-plus2"></i> {{ trans('messages.template.new_template') }}</span>
         </h1>				
     </div>
 

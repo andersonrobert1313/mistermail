@@ -15,7 +15,7 @@
             <li><a href="{{ action("HomeController@index") }}">{{ trans('messages.home') }}</a></li>
             <li><a href="{{ action("BlacklistController@index") }}">{{ trans('messages.blacklist') }}</a></li>
         </ul>
-        <h1>
+        <h1 style="color:#335eea !important">
             <span class="text-semibold"><i class="icon-download4"></i> {{ trans('messages.blacklist.import') }}</span>
         </h1>
     </div>

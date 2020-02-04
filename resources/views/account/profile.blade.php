@@ -34,8 +34,12 @@
                                 <h2 class="text-semibold text-teal-800">{{ trans('messages.profile_photo') }}</h2>
                                 <div class="media profile-image">
                                     <div class="media-left">
-                                        <a href="#" class="upload-media-container">
+                                        <a style="background-color:#51bd8b" href="#" class="upload-media-container">
+                                            <?php if(!empty($customer->image)){ ?>
                                             <img preview-for="image" empty-src="{{ URL::asset('assets/images/placeholder.jpg') }}" src="{{ action('CustomerController@avatar', $customer->uid) }}" class="img-circle" alt="">
+                                            <?php }else{ ?>
+                                            <h1 style="color: white;text-align: center;font-size: 48px;letter-spacing: -4px;">{{ @(ucfirst(substr($customer->first_name,0,1)))  }} {{ @(ucfirst(substr($customer->last_name,0,1)))  }}</h1>
+                                           <?php } ?>
                                         </a>
                                         <input type="file" name="image" class="file-styled previewable hide">
                                         <input type="hidden" name="_remove_image" value='' />

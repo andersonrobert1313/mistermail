@@ -13,7 +13,7 @@ class Send extends Action
         // If this is the latest also the last action of the workflow
         // no more execute, just return true
         if (!is_null($this->last_executed)) {
-            $this->autoTrigger->logger()->info('Already executed, I\'m the latest also the last action');
+           // $this->autoTrigger->logger()->info('Already executed, I\'m the latest also the last action');
             return true;
         }
 

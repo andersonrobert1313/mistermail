@@ -1,7 +1,7 @@
 <div class="sub-section">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <h2 class="text-semibold">{{ trans('messages.subscription.logs') }}</h2>
+            <h2 style="color:#335eea !important" class="text-semibold">{{ trans('messages.subscription.logs') }}</h2>
             <p>{{ trans('messages.subscription.logs.intro') }}</p>
 
 

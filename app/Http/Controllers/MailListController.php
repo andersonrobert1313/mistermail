@@ -58,9 +58,9 @@ class MailListController extends Controller
         }
 
         // default values
-        $list->subscribe_confirmation = true;
-        $list->send_welcome_email = true;
-        $list->unsubscribe_notification = true;
+        $list->subscribe_confirmation = false;
+        $list->send_welcome_email = false;
+        $list->unsubscribe_notification = false;
 
         // authorize
         if (\Gate::denies('create', $list)) {

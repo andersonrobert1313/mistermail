@@ -7,6 +7,7 @@ use Acelle\Model\Subscriber;
 use Acelle\Model\EmailVerificationServer;
 use Acelle\Library\Log as MailLog;
 use Acelle\Model\MailList;
+use DB;
 
 class SubscriberController extends Controller
 {
@@ -185,11 +186,13 @@ class SubscriberController extends Controller
                 }
             }
         }
+    $tracking_logs = \Acelle\Model\TrackingLog::where('subscriber_id', '=', $subscriber->id)->orderBy('id','DESC')->get();
 
         return view('subscribers.edit', [
             'list' => $list,
             'subscriber' => $subscriber,
             'values' => $values,
+            'tracking_logs' => $tracking_logs
         ]);
     }
 
