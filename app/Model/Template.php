@@ -329,6 +329,13 @@ class Template extends Model
             ['name' => 'LIST_SUBJECT', 'required' => false],
             ['name' => 'LIST_FROM_NAME', 'required' => false],
             ['name' => 'LIST_FROM_EMAIL', 'required' => false],
+            ['name' => 'WELCOME_POINTS', 'required' => false],
+            ['name' => 'POINTS_EARN', 'required' => false],
+            ['name' => 'TOTAL_POINTS', 'required' => false],
+            ['name' => 'ANNIVERSARY', 'required' => false],
+            ['name' => 'BIRTHDAY', 'required' => false],
+            ['name' => 'POINTS_REDEEM', 'required' => false],
+            ['name' => 'VIP_STATUS', 'required' => false],
         ]);
 
         return $tags;

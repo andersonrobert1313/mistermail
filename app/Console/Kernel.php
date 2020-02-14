@@ -72,7 +72,7 @@ class Kernel extends ConsoleKernel
             Subscription::check($gateway);
         })->name('subscription:run')->everyFiveMinutes();
         
-        // $schedule->command('productviewcron:cron')->everyFiveMinutes();
+         $schedule->command('productviewcron:cron')->everyFiveMinutes();
          $schedule->command('createorderwebhook:cron')->everyMinute();
     }
 

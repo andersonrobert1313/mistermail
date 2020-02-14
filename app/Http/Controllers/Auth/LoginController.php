@@ -93,7 +93,7 @@ class LoginController extends Controller
 
 echo "done";die;*/
 
-         if(empty($user->store_name))
+        if(empty($user->store_name))
         {
             $plan = Plan::findByUid('58bd48f91fcab');
             $gateway = Cashier::getPaymentGateway();
@@ -101,7 +101,6 @@ echo "done";die;*/
             // Create subscription
             $subscription = $gateway->create($user->customer, $plan);
             if(!empty($request->store_name)){
-                DB::table("users")->where("id",$user->id)->update(array('store_name'=>$request->store_name,'list_created'=>1));
                 $customer=DB::table("customers")->where("user_id",$user->id)->first();
                 $data=DB::table("saveJson")->where("store_name",$request->store_name)->first();
                 $shopp=json_decode($data->json);
@@ -132,6 +131,7 @@ echo "done";die;*/
                 $server_output = curl_exec($chh);
                 $result=json_decode($server_output);
                 $mailList=DB::table('mail_lists')->where('uid',$result->list_uid)->first();
+                DB::table("users")->where("id",$user->id)->update(array('mail_list_id'=>$result->list_uid,'store_name'=>$request->store_name,'list_created'=>1));
                 //echo "<pre>"; print_r($mailList);die;
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'Status','type'=>'text','tag'=>'STATUS','visible'=>1,'required'=>0,'custom_order'=>0));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'Created At','type'=>'text','tag'=>'CREATED_AT','visible'=>1,'required'=>0,'custom_order'=>1));
@@ -179,6 +179,9 @@ echo "done";die;*/
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart1 title','type'=>'text','tag'=>'CART1_TITLE','visible'=>1,'required'=>0,'custom_order'=>43));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart1 quantity','type'=>'text','tag'=>'CART1_QUANTITY','visible'=>1,'required'=>0,'custom_order'=>44));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart1 image','type'=>'text','tag'=>'CART1_IMAGE','visible'=>1,'required'=>0,'custom_order'=>45));
+                
+
+
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart2 title','type'=>'text','tag'=>'CART2_TITLE','visible'=>1,'required'=>0,'custom_order'=>46));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart2 quantity','type'=>'text','tag'=>'CART2_QUANTITY','visible'=>1,'required'=>0,'custom_order'=>47));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart2 image','type'=>'text','tag'=>'CART2_IMAGE','visible'=>1,'required'=>0,'custom_order'=>48));
@@ -202,6 +205,23 @@ echo "done";die;*/
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'Total Page Views','type'=>'text','tag'=>'TOTAL_PAGE_VIEWS','visible'=>1,'required'=>0,'custom_order'=>65));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'Total Viewed Product','type'=>'text','tag'=>'TOTAL_VIEWED_PRODUCTS','visible'=>1,'required'=>0,'custom_order'=>66));
                 DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'Last Page View','type'=>'text','tag'=>'LAST_PAGE_VIEW','visible'=>1,'required'=>0,'custom_order'=>67));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart1 price','type'=>'text','tag'=>'CART1_PRICE','visible'=>1,'required'=>0,'custom_order'=>68));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart2 price','type'=>'text','tag'=>'CART2_PRICE','visible'=>1,'required'=>0,'custom_order'=>69));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart3 price','type'=>'text','tag'=>'CART3_PRICE','visible'=>1,'required'=>0,'custom_order'=>70));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart4 price','type'=>'text','tag'=>'CART4_PRICE','visible'=>1,'required'=>0,'custom_order'=>71));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart5 price','type'=>'text','tag'=>'CART5_PRICE','visible'=>1,'required'=>0,'custom_order'=>72));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart1 url','type'=>'text','tag'=>'CART1_URL','visible'=>1,'required'=>0,'custom_order'=>73));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart2 url','type'=>'text','tag'=>'CART2_URL','visible'=>1,'required'=>0,'custom_order'=>74));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart3 url','type'=>'text','tag'=>'CART3_URL','visible'=>1,'required'=>0,'custom_order'=>75));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart4 url','type'=>'text','tag'=>'CART4_URL','visible'=>1,'required'=>0,'custom_order'=>76));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'cart5 url','type'=>'text','tag'=>'CART5_URL','visible'=>1,'required'=>0,'custom_order'=>77));
+                
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'product1 url','type'=>'text','tag'=>'PRODUCT1_URL','visible'=>1,'required'=>0,'custom_order'=>78));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'product2 url','type'=>'text','tag'=>'PRODUCT2_URL','visible'=>1,'required'=>0,'custom_order'=>79));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'product3 url','type'=>'text','tag'=>'PRODUCT3_URL','visible'=>1,'required'=>0,'custom_order'=>80));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'product4 url','type'=>'text','tag'=>'PRODUCT4_URL','visible'=>1,'required'=>0,'custom_order'=>81));
+                DB::table('fields')->insert(array('uid'=>uniqid(),'mail_list_id'=>$mailList->id,'label'=>'product5 url','type'=>'text','tag'=>'PRODUCT5_URL','visible'=>1,'required'=>0,'custom_order'=>82));
+                
                 curl_close ($chh);
             }
            /* else
@@ -209,7 +229,7 @@ echo "done";die;*/
                 echo "Store Name Required";die;
             }*/
         } 
-        
+        //echo "string";die;
         return redirect()->intended('/');
     }
 }

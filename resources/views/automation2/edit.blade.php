@@ -132,7 +132,7 @@
 	<main role="main">
 		<div class="automation2">
 			<div class="diagram text-center scrollbar-inner">				
-				<svg id="svg" style="overflow: auto" width="100%" height="1800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				<svg id="svg" style="" width="2000" height="1800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<text x="435" y="30" alignment-baseline="middle" text-anchor="middle">Automation starts when the following trigger condition is met</text>
 
 				</svg>
@@ -452,7 +452,6 @@
 			e.select(); // highlight
 			
 			console.log(e.getType());
-			
 			// if click on a trigger
 			if (e.getType() == 'ElementTrigger') {
 				var options = e.getOptions();
@@ -496,6 +495,18 @@
 					EmailSetup(e.getId());
 				}
 			}
+			$('.diagram.scroll-content').scrollLeft(0);
+	        console.log($('#trigger_group')[0].getBoundingClientRect().left);
+	        
+	        var style = window.getComputedStyle($('#trigger_group')[0]);
+			var matrix = new WebKitCSSMatrix(style.webkitTransform);
+			console.log('translateX: ', matrix.m41);
+
+	        var triggerGroup = $('#trigger_group')[0].getBoundingClientRect().left
+	        if(triggerGroup <0){
+	            newtriggerGroup = matrix.m41-triggerGroup+30
+	            $('#trigger_group').css('transform','translateX('+newtriggerGroup+'px)')
+	        }
 		}
 
         (function() {
@@ -577,6 +588,15 @@
                     }
                 }
             });
+
+            $('.diagram.scroll-content').scrollLeft(0);
+	        console.log($('#trigger_group')[0].getBoundingClientRect().left);
+	        
+	        var triggerGroup = $('#trigger_group')[0].getBoundingClientRect().left
+	        if(triggerGroup <0){
+	            triggerGroup = triggerGroup-30
+	            $('#trigger_group').css('transform','translateX('+-triggerGroup+'px)')
+	        }
 
         })();
     </script>

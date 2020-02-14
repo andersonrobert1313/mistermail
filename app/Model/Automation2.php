@@ -294,6 +294,27 @@ class Automation2 extends Model
         ];
     }
 
+/*     public function getMinuteOptions()
+    {
+        return [
+            ['text' => trans_choice('messages.automation.delay.minute', 1), 'value' => '1 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 5), 'value' => '5 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 10), 'value' => '10 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 15), 'value' => '15 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 20), 'value' => '20 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 25), 'value' => '25 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 30), 'value' => '30 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 35), 'value' => '35 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 40), 'value' => '40 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 45), 'value' => '45 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 50), 'value' => '50 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 55), 'value' => '55 minute'],
+            ['text' => trans_choice('messages.automation.delay.minute', 60), 'value' => '60 minute'],
+
+
+        ];
+    }*/
+
     /**
      * Get delay or before options.
      */
@@ -365,7 +386,7 @@ class Automation2 extends Model
         // Step 1: check for new trigger
         $automations = self::where('status', self::STATUS_ACTIVE)->get();
         foreach ($automations as $automation) {
-            $automation->logger()->info(sprintf('Checking automation "%s"', $automation->name));
+            //$automation->logger()->info(sprintf('Checking automation "%s"', $automation->name));
             $automation->checkForNewTriggers();
             $automation->checkForExistingTriggersUpdate();
         }
@@ -376,11 +397,14 @@ class Automation2 extends Model
      */
     public function checkForNewTriggers()
     {
-        $this->logger()->info(sprintf('NEW > Start checking for new trigger'));
+       // $this->logger()->info(sprintf('NEW > Start checking for new trigger'));
 
         switch ($this->getTriggerAction()->getOption('key')) {
             case 'say-happy-birthday':
-                $this->checkForListSubscription();
+                $this->checkForBday();
+                break;
+                case 'anniversary':
+                $this->checkForAnniversary();
                 break;
                  case 'welcome-new-subscriber':
                 $this->checkForListSubscription();
@@ -397,8 +421,9 @@ class Automation2 extends Model
                  case 'winback-after-order':
                 $this->checkForWinBackOrders();
                 break;
-            case 'specific-date':
-                $this->checkForSpecificDatetime();
+                case 'winback-no-order':
+                $this->checkForWinNoOrders();
+                break;
                 //...
                 break;
             case 'say-goodbye-subscriber':
@@ -414,20 +439,20 @@ class Automation2 extends Model
             default:
                 throw new \Exception('Unknown Automation trigger type '. $this->getTriggerAction()->getOption('key'));
         }
-        $this->logger()->info(sprintf('NEW > Finish checking for new trigger'));
+        //$this->logger()->info(sprintf('NEW > Finish checking for new trigger'));
     }
 
 
     public function checkForBrowseAbandon()
     {
-         $this->logger()->info(sprintf('NEW > Check for Browse Users'));
+        // $this->logger()->info(sprintf('NEW > Check for Browse Users'));
          $total_subscribers = $this->subscribers();
          foreach ($this->subscribers()->get() as $subscriber) {
             $checkCart=DB::table('abandon_cart')->where('email',$subscriber->email)->where('status',0)->where('browse',1)->where('cart','!=',1)->count();
             if($checkCart > 0)
             {
                 $initData=$this->initTrigger($subscriber);
-                $this->logger()->info(sprintf('UPDATE inittrigger "%s"',$initData->id));
+                //$this->logger()->info(sprintf('UPDATE inittrigger "%s"',$initData->id));
                 DB::table('abandon_cart')->where('email',$subscriber->email)->update(array('status'=>1,'browse_trigger_id'=>$initData->id));
                 //DB::table('auto_triggers')->where('id',$initData->id)->update(array('type'=>0));
             }
@@ -436,20 +461,20 @@ class Automation2 extends Model
 
     public function checkForAfterOrders()
     {
-        $this->logger()->info(sprintf('NEW > Check for After Orders'));
+        //$this->logger()->info(sprintf('NEW > Check for After Orders'));
         foreach ($this->subscribers()->get() as $subscriber) {
             $getWebhookOrders=DB::table('webhook_orders')->where('status',1)->where('email',$subscriber->email)->first();
             if(!empty($getWebhookOrders)) 
             {
                 $this->initTrigger($subscriber);
-                $this->logger()->info(sprintf('UPDATE afterOrders "%s"',$subscriber->email));
+                //$this->logger()->info(sprintf('UPDATE afterOrders "%s"',$subscriber->email));
                 DB::table('webhook_orders')->where('id',$getWebhookOrders->id)->update(array('status'=>2));
             }
         }
     }
     public function checkForWinBackOrders()
     {
-        $this->logger()->info(sprintf('NEW > Check for Win back  Orders'));
+        //$this->logger()->info(sprintf('NEW > Check for Win back  Orders'));
         foreach ($this->subscribers()->get() as $subscriber) {
             $getWebhookOrders=DB::table('webhook_orders')->where('status',2)->where('email',$subscriber->email)->first();
             if(!empty($getWebhookOrders)) 
@@ -457,6 +482,18 @@ class Automation2 extends Model
                 $initData=$this->initTrigger($subscriber);
                 $this->logger()->info(sprintf('UPDATE after win back Orders "%s"',$subscriber->email));
                 DB::table('webhook_orders')->where('id',$getWebhookOrders->id)->delete();
+            }
+        }
+    }
+
+     public function checkForWinNoOrders()
+    {
+        //$this->logger()->info(sprintf('NEW > Check for Win no  Orders'));
+        foreach ($this->subscribers()->get() as $subscriber) {
+            if($subscriber->new_status == 0)
+            {
+                DB::table('subscribers')->where('id',$subscriber->id)->update(array('new_status'=>1));
+                $initData=$this->initTrigger($subscriber);
             }
         }
     }
@@ -470,7 +507,7 @@ class Automation2 extends Model
             if($checkCart > 0)
             {
                 $initData=$this->initTrigger($subscriber);
-                $this->logger()->info(sprintf('UPDATE inittrigger "%s"',$initData->id));
+                //$this->logger()->info(sprintf('UPDATE inittrigger "%s"',$initData->id));
                 DB::table('abandon_cart')->where('email',$subscriber->email)->update(array('status'=>2,'cart_trigger_id'=>$initData->id));
                 //DB::table('auto_triggers')->where('id',$initData->id)->update(array('type'=>1));
             }
@@ -482,11 +519,11 @@ class Automation2 extends Model
      */
     public function checkForExistingTriggersUpdate()
     {
-        $this->logger()->info(sprintf('UPDATE > Start checking for trigger update'));
+       // $this->logger()->info(sprintf('UPDATE > Start checking for trigger update'));
         foreach ($this->autoTriggers as $trigger) {
             $trigger->check();
         }
-        $this->logger()->info(sprintf('UPDATE > Finish checking for trigger update'));
+       // $this->logger()->info(sprintf('UPDATE > Finish checking for trigger update'));
     }
 
     /**
@@ -495,50 +532,106 @@ class Automation2 extends Model
 
     public function checkForListSubscription()
     {
-        $this->logger()->info(sprintf('NEW > Check for List Subscription'));
+        //$this->logger()->info(sprintf('NEW > Check for List Subscription'));
         $now = Carbon::now();
         $subscribers = $this->getNewSubscribersToFollow();
         $total = count($subscribers);
-        $this->logger()->info(sprintf('NEW > There are %s new subscriber(s) found', $total));
+        //$this->logger()->info(sprintf('NEW > There are %s new subscriber(s) found', $total));
         
         $i = 0;
         foreach ($subscribers as $subscriber) {
             $i += 1;
             $this->initTrigger($subscriber);
-            $this->logger()->info(sprintf('NEW > (%s/%s) > Adding new trigger for %s', $i, $total, $subscriber->email));
+            //$this->logger()->info(sprintf('NEW > (%s/%s) > Adding new trigger for %s', $i, $total, $subscriber->email));
         }
     }
 
     /**
      * Check for specific-datetimetime events.
      */
-    public function checkForSpecificDatetime()
+    public function checkForBday()
     {
-        $this->logger()->info(sprintf('NEW > Check for Specific Date/Time'));
+        //$this->logger()->info(sprintf('NEW > Check for Specific Date/Time'));
         // this is a one-time triggered automation event
         // just abort if it is already triggered
+
         if ($this->autoTriggers()->exists()) {
-            $this->logger()->info(sprintf('NEW > Already triggered'));
+           // $this->logger()->info(sprintf('NEW > Already triggered'));
             return;
         }
 
         $now = Carbon::now();
         $trigger = $this->getTriggerAction();
 
-        $eventDate = Carbon::parse($trigger->getOption('date').' '.$trigger->getOption('at'));
+        /*$eventDate = Carbon::parse($trigger->getOption('BIRTHDAY').' '.$trigger->getOption('at'));
+        $this->logger()->info(sprintf('NEW > It is %s hours due! triggering!', $now->diffInHours($eventDate)));
+
         $checked = $now->gte($eventDate);
 
         $total = $this->subscribers()->count();
         $i = 0;
         if ($checked) {
-            $this->logger()->info(sprintf('NEW > It is %s hours due! triggering!', $now->diffInHours($eventDate)));
+            //$this->logger()->info(sprintf('NEW > It is %s hours due! triggering!', $now->diffInHours($eventDate)));
             foreach ($this->subscribers()->get() as $subscriber) {
                 $i += 1;
                 $this->initTrigger($subscriber);
                 $this->logger()->info(sprintf('NEW > (%s/%s) > Adding new trigger for %s', $i, $total, $subscriber->email));
             }
+        }*/
+         foreach ($this->subscribers()->get() as $subscriber) {
+                $birthday=$subscriber->getValueByTag('BIRTHDAY');
+                if($birthday == date('Y-m-d') && $subscriber->bday == 0)
+                {        
+                    $this->logger()->info(sprintf('NEW > Enter to Bday'));
+                    $at=$trigger->getOption('at');
+                    $currentTime = date('h:i A');
+                    $this->initTrigger($subscriber);
+                    DB::table('subscribers')->where('id',$subscriber->id)->update(array('bday'=>1));
+                }
+        }
+    }
+
+    public function checkForAnniversary()
+    {
+        //$this->logger()->info(sprintf('NEW > Check for Specific Date/Time'));
+        // this is a one-time triggered automation event
+        // just abort if it is already triggered
+        $this->logger()->info(sprintf('NEW > Enter to Anni'));
+
+        if ($this->autoTriggers()->exists()) {
+           // $this->logger()->info(sprintf('NEW > Already triggered'));
+            return;
         }
 
+        $now = Carbon::now();
+        $trigger = $this->getTriggerAction();
+
+        /*$eventDate = Carbon::parse($trigger->getOption('BIRTHDAY').' '.$trigger->getOption('at'));
+        $this->logger()->info(sprintf('NEW > It is %s hours due! triggering!', $now->diffInHours($eventDate)));
+
+        $checked = $now->gte($eventDate);
+
+        $total = $this->subscribers()->count();
+        $i = 0;
+        if ($checked) {
+            //$this->logger()->info(sprintf('NEW > It is %s hours due! triggering!', $now->diffInHours($eventDate)));
+            foreach ($this->subscribers()->get() as $subscriber) {
+                $i += 1;
+                $this->initTrigger($subscriber);
+                $this->logger()->info(sprintf('NEW > (%s/%s) > Adding new trigger for %s', $i, $total, $subscriber->email));
+            }
+        }*/
+         foreach ($this->subscribers()->get() as $subscriber) {
+               $anni=$subscriber->getValueByTag('ANNIVERSARY');
+                if($anni == date('Y-m-d') && $subscriber->anniver == 0)
+                {        
+                    $this->logger()->info(sprintf('NEW > Enter to anniver'));
+                    $at=$trigger->getOption('at');
+                    $currentTime = date('h:i A');
+                    $this->initTrigger($subscriber);
+                    DB::table('subscribers')->where('id',$subscriber->id)->update(array('anniver'=>1));
+                }
+        }
     }
 
     /**
@@ -546,10 +639,10 @@ class Automation2 extends Model
      */
     public function checkForListUnsubscription()
     {
-        $this->logger()->info(sprintf('NEW > Check for List Unsubscription'));
+        //$this->logger()->info(sprintf('NEW > Check for List Unsubscription'));
         $subscribers = $this->getUnsubscribersToFollow();
         $total = count($subscribers);
-        $this->logger()->info(sprintf('NEW > %s new unsubscribers found', $total));
+        //$this->logger()->info(sprintf('NEW > %s new unsubscribers found', $total));
         $i = 0;
         foreach ($subscribers as $subscriber) {
             $i += 1;

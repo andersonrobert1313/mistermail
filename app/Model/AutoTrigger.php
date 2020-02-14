@@ -159,7 +159,7 @@ class AutoTrigger extends Model
 
     public function check()
     {
-        $this->logger()->info(sprintf('UPDATE > Trigger %s for "%s" - "%s" Start checking', $this->id, $this->automation2->name, $this->subscriber->email));
+       // $this->logger()->info(sprintf('UPDATE > Trigger %s for "%s" - "%s" Start checking', $this->id, $this->automation2->name, $this->subscriber->email));
         $last = $this->getLatestAction();
         if ($last == null) { // ehde ch kdi ni janda
             $trigger = $this->getTrigger();
@@ -180,7 +180,7 @@ class AutoTrigger extends Model
                 {
                     DB::table('abandon_cart')->where('email',$this->subscriber->email)->where('cart_trigger_id',$this->id)->orWhere('browse_trigger_id',$this->id)->delete();
                 }
-                $this->logger()->info(sprintf('UPDATE > %s > End of flow, no more action to check', $this->id, $this->automation2->name, $this->subscriber->email));
+               // $this->logger()->info(sprintf('UPDATE > %s > End of flow, no more action to check', $this->id, $this->automation2->name, $this->subscriber->email));
                 break;
             }
             //$this->logger()->info(sprintf('UPDATE > %s > Checkingg  "%s" "%s"', $this->id, $last->getTitle(),$last->getId()));
@@ -190,7 +190,7 @@ class AutoTrigger extends Model
             //$this->logger()->info(sprintf('UPDATE > last update "%s"', json_encode($last->getId())));
             $this->updateAction($last); // update 'last_checked_at' field of Wait for example
             //$this->logger()->info(sprintf('UPDATE > see last "%s" last "%s"', $endId, json_encode($executedArray)));
-            $this->logger()->info(sprintf('UPDATE > %s > Pending at "%s"', $this->id, $last->getTitle()));
+           // $this->logger()->info(sprintf('UPDATE > %s > Pending at "%s"', $this->id, $last->getTitle()));
         }
 
     }

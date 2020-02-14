@@ -21,6 +21,7 @@
 			@include("campaigns._info")
 
             <br />
+                        @include("campaigns._count_boxes")
 
             @include("campaigns._chart")
 
@@ -28,7 +29,6 @@
 
 			@include("campaigns._open_click_rate")
 
-			@include("campaigns._count_boxes")
 
             <br />
 

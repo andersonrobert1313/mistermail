@@ -1,4 +1,4 @@
-            <h3 class="mt-10"><i class="icon-stats-dots"></i> {{ trans('messages.top_country_by_clicks') }}</h3>
+            <h3 style="color:#335eea !important" class="mt-10"><i class="icon-stats-dots"></i> {{ trans('messages.top_country_by_clicks') }}</h3>
             <div class="row">
                 <div class="col-md-6">
                     @if (!$campaign->clickCount())                        

@@ -23,7 +23,7 @@
                 <br />
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="panel panel-white bg-teal-400">
+                        <div style="background-color:#FF9800;border-color:#FF9800;" class="panel panel-white bg-teal-400">
                             <div class="panel-body text-center">
                                 <h2 class="text-semibold mb-10 mt-0">{{ number_to_percentage($list->readCache('SubscribeRate')) }}</h2>
                                 <div class="text-muted">{{ trans('messages.avg_subscribe_rate') }}</div>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="panel panel-white bg-teal-400">
+                        <div style="background-color:#26A69A;border-color:#26A69A;" class="panel panel-white bg-teal-400">
                             <div class="panel-body text-center">
                                 <h2 class="text-semibold mb-10 mt-0">{{ number_to_percentage($list->readCache('UnsubscribeRate')) }}</h2>
                                 <div class="text-muted">{{ trans('messages.avg_unsubscribe_rate') }}</div>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="panel panel-white bg-teal-400">
+                        <div style="background-color:#7cb342;border-color:#7cb342;" class="panel panel-white bg-teal-400">
                             <div class="panel-body text-center">
                                 <h2 class="text-semibold mb-10 mt-0">{{ number_with_delimiter($list->readCache('UnsubscribeCount')) }}</h2>
                                 <div class="text-muted">{{ trans('messages.total_unsubscribers') }}</div>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="panel panel-white bg-teal-400">
+                        <div style="background-color:#e53935;border-color:#e53935;" class="panel panel-white bg-teal-400">
                             <div class="panel-body text-center">
                                 <h2 class="text-semibold mb-10 mt-0">{{ number_with_delimiter($list->readCache('UnconfirmedCount')) }}</h2>
                                 <div class="text-muted">{{ trans('messages.total_unconfirmed') }}</div>

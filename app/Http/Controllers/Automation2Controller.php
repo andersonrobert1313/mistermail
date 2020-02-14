@@ -160,6 +160,25 @@ class Automation2Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getUsersLocations(Request $request)
+    {
+         $automation = Automation2::findByUid($request->automation_id);
+         $subscribers=$automation->mailList->subscribers;
+         $options='<option>Select</option>';
+         foreach ($subscribers as $key => $getSubscriber) {
+             if(!empty($getSubscriber->getValueByTag('COUNTRY')))
+             {
+                $array[]=$getSubscriber->getValueByTag('COUNTRY');
+             }
+         }
+         $unique=array_unique($array);
+         foreach ($unique as $key => $value) {
+             $options.='<option value="'.$value.'">'.$value.'</option>';
+         }
+         //
+         return $options;
+    }
+
     public function edit(Request $request, $uid)
     {
         // init automation
@@ -169,7 +188,7 @@ class Automation2Controller extends Controller
         if (\Gate::denies('update', $automation)) {
             return $this->notAuthorized();
         }
-        
+        //echo "<pre>"; print_r($automation->mailList->subscribers);die;
         return view('automation2.edit', [
             'automation' => $automation,                          
         ]);
@@ -218,8 +237,7 @@ class Automation2Controller extends Controller
             'winback-no-order',
             'welcome-new-subscriber',
             'say-happy-birthday',
-            'subscriber-added-date',
-            'specific-date',
+            'anniversary',
             'say-goodbye-subscriber',
             'api-3-0',
         ];
@@ -271,20 +289,21 @@ class Automation2Controller extends Controller
           'winback-no-order' => [],
             'welcome-new-subscriber' => [],
             'say-happy-birthday' => [
-                'options.before' => 'required',
-                'options.at' => 'required',
-                'options.field' => 'required',
+                'options.at' => 'required'
             ],
-            'specific-date' => [
+             'anniversary' => [
+                'options.at' => 'required'
+            ],
+           /* 'specific-date' => [
                 'options.date' => 'required',
                 'options.at' => 'required',
-            ],
+            ],*/
             'say-goodbye-subscriber' => [],
             'api-3-0' => [],
-            'subscriber-added-date' => [
+           /* 'subscriber-added-date' => [
                 'options.delay' => 'required',
                 'options.at' => 'required',
-            ],
+            ],*/
         ];
     }
     
@@ -428,6 +447,43 @@ class Automation2Controller extends Controller
                     ],
                 ]);
             }
+            else if ($request->type == 'cartlessthan') {
+                Automation2::where('uid',$uid)->update(array('cartlessthan'=>$request->cart_value));
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.cartlessthan.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+             else if ($request->type == 'orderlessthan') {
+                Automation2::where('uid',$uid)->update(array('orderlessthan'=>$request->order_value));
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.orderlessthan.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+            else if ($request->type == 'contactcountryfrom') {
+                Automation2::where('uid',$uid)->update(array('country'=>$request->country));
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.contactcountryfrom.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+
             else if ($request->type == 'click') {
                 return response()->json([
                     'status' => 'success',
@@ -556,6 +612,42 @@ class Automation2Controller extends Controller
                     ],
                 ]);
             }
+            else if ($request->type == 'cartlessthan') {
+                 Automation2::where('uid',$uid)->update(array('cartlessthan'=>$request->cart_value));
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.cartlessthan.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+             else if ($request->type == 'orderlessthan') {
+                Automation2::where('uid',$uid)->update(array('orderlessthan'=>$request->order_value));
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.orderlessthan.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
+             else if ($request->type == 'contactcountryfrom') {
+                Automation2::where('uid',$uid)->update(array('country'=>$request->country));
+                return response()->json([
+                    'status' => 'success',
+                    'message' => trans('messages.automation.action.added'),
+                    'title' => trans('messages.automation.action.condition.contactcountryfrom.title'),
+                    'options' => [
+                        'key' => $request->key,
+                        'type' => $request->type
+                    ],
+                ]);
+            }
             else if ($request->type == 'click') {
                     return response()->json([
                         'status' => 'success',
@@ -582,7 +674,6 @@ class Automation2Controller extends Controller
                 ]);
             }
         }
-        
         return view('automation2.actionEdit', [
             'key' => $request->key,
             'automation' => $automation,

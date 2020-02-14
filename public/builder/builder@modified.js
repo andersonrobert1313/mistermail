@@ -288,6 +288,7 @@ var Builder = function (e) {
         save: function (e) {
             var t = this,
                 n = t.saveUrl;
+                console.log(t);
             t.cleanUpContent();
             var i = $("#builder_iframe").contents().find("html").html().replace(/element-selected/g, "").replace(/builder-outline-move-hook/g, "").replace(/builder-outline-selected-controls/g, ""),
                 r = editor.uploadAssetMethod;
@@ -2742,7 +2743,7 @@ var Builder = function (e) {
                 },
                 ie = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,
                 re = function (e, t) {
-                    return t ? "\0" === e ? "�" : e.slice(0, -1) + "\\" + e.charCodeAt(e.length - 1).toString(16) + " " : "\\" + e
+                    return t ? "\0" === e ? "ï¿½" : e.slice(0, -1) + "\\" + e.charCodeAt(e.length - 1).toString(16) + " " : "\\" + e
                 },
                 oe = function () {
                     h()
@@ -5726,7 +5727,7 @@ var Builder = function (e) {
      * clipboard.js v2.0.4
      * https://zenorocha.github.io/clipboard.js
      * 
-     * Licensed MIT © Zeno Rocha
+     * Licensed MIT Â© Zeno Rocha
      */
     e.exports = function (e) {
         var t = {};
@@ -6492,7 +6493,7 @@ var Builder = function (e) {
             Date.now || (Date.now = function () {
                 return (new Date).getTime()
             });
-            var S = "\t\n\v\f\r                　\u2028\u2029\ufeff";
+            var S = "\t\n\v\f\r Â áš€â€€â€â€‚â€ƒâ€„â€…â€†â€‡â€ˆâ€‰â€Šâ€¯âŸã€€\u2028\u2029\ufeff";
             if (!String.prototype.trim) {
                 S = "[" + S + "]";
                 var T = new RegExp("^" + S + S + "*"),
@@ -8516,7 +8517,7 @@ var Builder = function (e) {
                     n = t >> 8;
                 return 0 == n ? t > 191 ? u : R[t] : 5 == n ? /[\u0591-\u05f4]/.test(e) ? h : u : 6 == n ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(e) ? x : /[\u0660-\u0669\u066b-\u066c]/.test(e) ? g : 1642 == t ? _ : /[\u06f0-\u06f9]/.test(e) ? p : v : 32 == n && t <= 8287 ? L[255 & t] : 254 == n && t >= 65136 ? v : f
             }
-            t.L = u, t.R = h, t.EN = p, t.ON_R = 3, t.AN = 4, t.R_H = 5, t.B = 6, t.RLE = 7, t.DOT = "·", t.doBidiReorder = function (e, n, u) {
+            t.L = u, t.R = h, t.EN = p, t.ON_R = 3, t.AN = 4, t.R_H = 5, t.B = 6, t.RLE = 7, t.DOT = "Â·", t.doBidiReorder = function (e, n, u) {
                 if (e.length < 2) return {};
                 var p = e.split(""),
                     w = new Array(p.length),
@@ -8558,8 +8559,8 @@ var Builder = function (e) {
                     }(p, _, p.length, n);
                 for (var x = 0; x < w.length; w[x] = x, x++);
                 O(2, _, w), O(1, _, w);
-                for (x = 0; x < w.length - 1; x++) n[x] === g ? _[x] = t.AN : _[x] === h && (n[x] > v && n[x] < k || n[x] === f || n[x] === T) ? _[x] = t.ON_R : x > 0 && "ل" === p[x - 1] && /\u0622|\u0623|\u0625|\u0627/.test(p[x]) && (_[x - 1] = _[x] = t.R_H, x++);
-                p[p.length - 1] === t.DOT && (_[p.length - 1] = t.B), "‫" === p[0] && (_[0] = t.RLE);
+                for (x = 0; x < w.length - 1; x++) n[x] === g ? _[x] = t.AN : _[x] === h && (n[x] > v && n[x] < k || n[x] === f || n[x] === T) ? _[x] = t.ON_R : x > 0 && "Ù„" === p[x - 1] && /\u0622|\u0623|\u0625|\u0627/.test(p[x]) && (_[x - 1] = _[x] = t.R_H, x++);
+                p[p.length - 1] === t.DOT && (_[p.length - 1] = t.B), "â€«" === p[0] && (_[0] = t.RLE);
                 for (x = 0; x < w.length; x++) y[x] = _[w[x]];
                 return {
                     logicalFromVisual: w,
@@ -8579,7 +8580,7 @@ var Builder = function (e) {
                 r = e("./lib/lang"),
                 o = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\u202B]/,
                 s = function (e) {
-                    this.session = e, this.bidiMap = {}, this.currentRow = null, this.bidiUtil = i, this.charWidths = [], this.EOL = "¬", this.showInvisibles = !0, this.isRtlDir = !1, this.$isRtl = !1, this.line = "", this.wrapIndent = 0, this.EOF = "¶", this.RLE = "‫", this.contentWidth = 0, this.fontMetrics = null, this.rtlLineOffset = 0, this.wrapOffset = 0, this.isMoveLeftOperation = !1, this.seenBidi = o.test(e.getValue())
+                    this.session = e, this.bidiMap = {}, this.currentRow = null, this.bidiUtil = i, this.charWidths = [], this.EOL = "Â¬", this.showInvisibles = !0, this.isRtlDir = !1, this.$isRtl = !1, this.line = "", this.wrapIndent = 0, this.EOF = "Â¶", this.RLE = "â€«", this.contentWidth = 0, this.fontMetrics = null, this.rtlLineOffset = 0, this.wrapOffset = 0, this.isMoveLeftOperation = !1, this.seenBidi = o.test(e.getValue())
                 };
             (function () {
                 this.isBidiRow = function (e, t, n) {
@@ -8622,7 +8623,7 @@ var Builder = function (e) {
                     if (this.characterWidth !== e.$characterSize.width) {
                         this.fontMetrics = e;
                         var t = this.characterWidth = e.$characterSize.width,
-                            n = e.$measureCharWidth("ה");
+                            n = e.$measureCharWidth("×”");
                         this.charWidths[i.L] = this.charWidths[i.EN] = this.charWidths[i.ON_R] = t, this.charWidths[i.R] = this.charWidths[i.AN] = n, this.charWidths[i.R_H] = .45 * n, this.charWidths[i.B] = this.charWidths[i.RLE] = 0, this.currentRow = null
                     }
                 }, this.setShowInvisibles = function (e) {
@@ -13853,7 +13854,7 @@ var Builder = function (e) {
                 });
             var y = {
                 getText: function (e, t) {
-                    return (Math.abs(e.selection.lead.row - t) || t + 1 + (t < 9 ? "·" : "")) + ""
+                    return (Math.abs(e.selection.lead.row - t) || t + 1 + (t < 9 ? "Â·" : "")) + ""
                 },
                 getWidth: function (e, t, n) {
                     return Math.max(t.toString().length, (n.lastRow + 1).toString().length, 2) * n.characterWidth
@@ -14405,7 +14406,7 @@ var Builder = function (e) {
                     this.dom = r, this.element = this.dom.createElement("div"), this.element.className = "ace_layer ace_text-layer", e.appendChild(this.element), this.$updateEolChar = this.$updateEolChar.bind(this), this.$lines = new s(this.element)
                 };
             (function () {
-                i.implement(this, a), this.EOF_CHAR = "¶", this.EOL_CHAR_LF = "¬", this.EOL_CHAR_CRLF = "¤", this.EOL_CHAR = this.EOL_CHAR_LF, this.TAB_CHAR = "—", this.SPACE_CHAR = "·", this.$padding = 0, this.MAX_LINE_LENGTH = 1e4, this.$updateEolChar = function () {
+                i.implement(this, a), this.EOF_CHAR = "Â¶", this.EOL_CHAR_LF = "Â¬", this.EOL_CHAR_CRLF = "Â¤", this.EOL_CHAR = this.EOL_CHAR_LF, this.TAB_CHAR = "â€”", this.SPACE_CHAR = "Â·", this.$padding = 0, this.MAX_LINE_LENGTH = 1e4, this.$updateEolChar = function () {
                     var e = this.session.doc,
                         t = "\n" == e.getNewLineCharacter() && "windows" != e.getNewLineMode() ? this.EOL_CHAR_LF : this.EOL_CHAR_CRLF;
                     if (this.EOL_CHAR != t) return this.EOL_CHAR = t, !0
@@ -14567,7 +14568,7 @@ var Builder = function (e) {
                         }
                         if (i + u.length < s) a = this.$renderToken(l, a, d, u), i += u.length;
                         else {
-                            for (; i + u.length >= s;) a = this.$renderToken(l, a, d, u.substring(0, s - i)), u = u.substring(s - i), i = s, l = this.$createLineElement(), e.appendChild(l), l.appendChild(this.dom.createTextNode(o.stringRepeat(" ", n.indent), this.element)), a = 0, s = n[++r] || Number.MAX_VALUE;
+                            for (; i + u.length >= s;) a = this.$renderToken(l, a, d, u.substring(0, s - i)), u = u.substring(s - i), i = s, l = this.$createLineElement(), e.appendChild(l), l.appendChild(this.dom.createTextNode(o.stringRepeat("Â ", n.indent), this.element)), a = 0, s = n[++r] || Number.MAX_VALUE;
                             0 != u.length && (i += u.length, a = this.$renderToken(l, a, d, u))
                         }
                     }
@@ -14732,7 +14733,7 @@ var Builder = function (e) {
                 o = e("./lib/event"),
                 s = e("./lib/event_emitter").EventEmitter,
                 a = function (e) {
-                    this.element = r.createElement("div"), this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix, this.inner = r.createElement("div"), this.inner.className = "ace_scrollbar-inner", this.inner.textContent = " ", this.element.appendChild(this.inner), e.appendChild(this.element), this.setVisible(!1), this.skipEvent = !1, o.addListener(this.element, "scroll", this.onScroll.bind(this)), o.addListener(this.element, "mousedown", o.preventDefault)
+                    this.element = r.createElement("div"), this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix, this.inner = r.createElement("div"), this.inner.className = "ace_scrollbar-inner", this.inner.textContent = "Â ", this.element.appendChild(this.inner), e.appendChild(this.element), this.setVisible(!1), this.skipEvent = !1, o.addListener(this.element, "scroll", this.onScroll.bind(this)), o.addListener(this.element, "mousedown", o.preventDefault)
                 };
             (function () {
                 i.implement(this, s), this.setVisible = function (e) {
@@ -21611,7 +21612,7 @@ var Builder = function (e) {
                     },
                     ie = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,
                     re = function (e, t) {
-                        return t ? "\0" === e ? "�" : e.slice(0, -1) + "\\" + e.charCodeAt(e.length - 1).toString(16) + " " : "\\" + e
+                        return t ? "\0" === e ? "ï¿½" : e.slice(0, -1) + "\\" + e.charCodeAt(e.length - 1).toString(16) + " " : "\\" + e
                     },
                     oe = function () {
                         h()
@@ -25516,7 +25517,7 @@ var Builder = function (e) {
             var i = e("../lib/oop"),
                 r = e("./doc_comment_highlight_rules").DocCommentHighlightRules,
                 o = e("./text_highlight_rules").TextHighlightRules,
-                s = "[a-zA-Z\\$_¡-￿][a-zA-Z\\d\\$_¡-￿]*",
+                s = "[a-zA-Z\\$_Â¡-ï¿¿][a-zA-Z\\d\\$_Â¡-ï¿¿]*",
                 a = function (e) {
                     var t = this.createKeywordMapper({
                             "variable.language": "Array|Boolean|Date|Function|Iterator|Number|Object|RegExp|String|Proxy|Namespace|QName|XML|XMLList|ArrayBuffer|Float32Array|Float64Array|Int16Array|Int32Array|Int8Array|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|Error|EvalError|InternalError|RangeError|ReferenceError|StopIteration|SyntaxError|TypeError|URIError|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|eval|isFinite|isNaN|parseFloat|parseInt|JSON|Math|this|arguments|prototype|window|document",
@@ -26687,7 +26688,7 @@ var Builder = function (e) {
             var i = e("../lib/oop"),
                 r = e("./text_highlight_rules").TextHighlightRules,
                 o = function (e) {
-                    var t = "[_:a-zA-ZÀ-￿][-_:.a-zA-Z0-9À-￿]*";
+                    var t = "[_:a-zA-ZÃ€-ï¿¿][-_:.a-zA-Z0-9Ã€-ï¿¿]*";
                     this.$rules = {
                         start: [{
                             token: "string.cdata.xml",
@@ -30826,7 +30827,7 @@ var Builder = function (e) {
             "wpanel.others.url.title": "Url",
             "wpanel.others.base64.title": "Base64",
             "wpanel.others.des_upload_image.title": "Select an image from your device to replace the current one in the design. You can also Drag and Drop your image in the upload box below",
-            "wpanel.others.des_upload_template.title": "This Sales Representative job description template covers the key qualifications, duties and responsibilities of a sales rep and it’s easy to customize.",
+            "wpanel.others.des_upload_template.title": "This Sales Representative job description template covers the key qualifications, duties and responsibilities of a sales rep and itâ€™s easy to customize.",
             "wpanel.others.file.title": "File",
             "wpanel.others.des_drag_image.title": "Drag your files here or click in this area.",
             "wpanel.others.des_url_image.title": "Set an image URL to replace the current one in the design. Note that image will be actually downloaded and stored on your server",
@@ -30866,7 +30867,7 @@ var Builder = function (e) {
             "wpanel.widgets.or.title": "or",
             "wpanel.widgets.des_image_block.title": "Input caption text here. Use the block's Settings tab to change the caption position and set other styles.",
             "wpanel.widgets.footer.title": "Footer",
-            "wpanel.widgets.des_footer.title": '<em>Copyright © *|CURRENT_YEAR|* *|LIST:COMPANY|*, All rights reserved.</em><br>*|IFNOT:ARCHIVE_PAGE|* *|LIST:DESCRIPTION|*<br><br><strong>Our mailing address is:</strong><br>*|HTML:LIST_ADDRESS_HTML|* *|END:IF|*<br><br>Want to change how you receive these emails?<br>You can <a href="*|UPDATE_PROFILE|*">update your preferences</a> or <a href="*|UNSUB|*">unsubscribe from this list</a>.<br><br>*|IF:REWARDS|* *|HTML:REWARDS|* *|END:IF|*',
+            "wpanel.widgets.des_footer.title": '<em>Copyright Â© *|CURRENT_YEAR|* *|LIST:COMPANY|*, All rights reserved.</em><br>*|IFNOT:ARCHIVE_PAGE|* *|LIST:DESCRIPTION|*<br><br><strong>Our mailing address is:</strong><br>*|HTML:LIST_ADDRESS_HTML|* *|END:IF|*<br><br>Want to change how you receive these emails?<br>You can <a href="*|UPDATE_PROFILE|*">update your preferences</a> or <a href="*|UNSUB|*">unsubscribe from this list</a>.<br><br>*|IF:REWARDS|* *|HTML:REWARDS|* *|END:IF|*',
             "wpanel.widgets.table.title": "Table",
             "wpanel.widgets.table.hashtag.title": "#",
             "wpanel.widgets.table.first_name.title": "First Name",
@@ -30887,7 +30888,7 @@ var Builder = function (e) {
             "wpanel.widgets.list_image.title": "List Image",
             "wpanel.widgets.list_image.designer.title": "Webdesigner",
             "wpanel.widgets.list_image.design.des.title": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "wpanel.widgets.list_image.see.title": "See works »",
+            "wpanel.widgets.list_image.see.title": "See works Â»",
             "wpanel.widgets.list_image.photo.title": "Photographer",
             "wpanel.widgets.list_image.photo.des.title": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "wpanel.widgets.list_image.copy.title": "Copywriter",
@@ -31034,7 +31035,7 @@ var Builder = function (e) {
             "wpanel.widgets.form.description3": "Billing Address",
             "wpanel.widgets.form.description4": "CVC",
             "wpanel.widgets.form.description5": "Expiration",
-            "wpanel.widgets.form.description6": "Pay »",
+            "wpanel.widgets.form.description6": "Pay Â»",
             "wpanel.widgets.my.title": "Dynamic Content",
             "text.text.text": "text",
             copy_url_success: "Copy url successfully!",

@@ -60,8 +60,17 @@ class Evaluate extends Action
             case 'open':
                 $result = $this->evaluateEmailOpenCondition();
                 break;
-            case 'makeapurchase':
+                case 'makeapurchase':
                 $result = $this->evaluateMakeApurchase();
+                break;
+                 case 'cartlessthan':
+                $result = $this->evaluateCartLessThan();
+                break;
+                case 'orderlessthan':
+                $result = $this->evaluateOrderLessThan();
+                break;
+                case 'contactcountryfrom':
+                $result = $this->evaluateContactCountryFrom();
                 break;
             default:
                 # code...
@@ -110,8 +119,48 @@ class Evaluate extends Action
         }
         elseif($this->autoTrigger->automation2->automation_name == 'winback-after-order')
         {
-            $this->autoTrigger->logger()->info(sprintf('inside after order'));
-            return false;
+            //$this->autoTrigger->logger()->info(sprintf('enter winback order'));
+            $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+            if(!empty($getSubscriber))
+            {
+                $date = $getSubscriber->getValueByTag('LAST_PURCHASE');
+                if(!empty($date)){
+                    $exDate=explode("T", $date);
+                    $last_order_Date=$exDate[0];
+                    $minus="-".$this->autoTrigger->automation2->automation_wait;
+                    $minusDate = date("Y-m-d", strtotime($minus));
+
+                    if($last_order_Date > $minusDate && $last_order_Date < date('Y-m-d')) {
+                        //$this->autoTrigger->logger()->info(sprintf('between'));
+                        DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                    } else {
+                         //$this->autoTrigger->logger()->info(sprintf('No between'));
+                         return true;
+                    } 
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        elseif($this->autoTrigger->automation2->automation_name == 'winback-no-order')
+        {
+            $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+            if(!empty($getSubscriber))
+            {
+                $date = $getSubscriber->getValueByTag('LAST_PURCHASE');
+                if(empty($date)){
+                    return true;
+                }
+                else
+                {
+                      DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                }
+            }
+        }
+        else
+        {
             $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
             if(!empty($getSubscriber))
             {
@@ -129,7 +178,6 @@ class Evaluate extends Action
                     }   
                     else
                     {
-                         DB::table('abandon_cart')->where('email',$this->autoTrigger->subscriber->email)->delete();
                          DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
                     }
                 }
@@ -139,11 +187,92 @@ class Evaluate extends Action
                 }
             }
         }
-        else
-        {
+    }
 
+    public function evaluateCartLessThan()
+    {
+        $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+        if(!empty($getSubscriber))
+        {
+            $this->autoTrigger->logger()->info(sprintf('subscriber found'));
+            $cart_value = $getSubscriber->getValueByTag('CART_VALUE');
+            if(!empty($cart_value)){
+                $cartlessthan=$this->autoTrigger->automation2->cartlessthan;
+                if($cart_value < $cartlessthan)
+                {   
+                    $this->autoTrigger->logger()->info(sprintf('cart less send email'));
+                    return true;
+                }   
+                else
+                {
+                     $this->autoTrigger->logger()->info(sprintf('cart not less delete'));
+                     DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                }
+            }
+            else
+            {
+                DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+            }
         }
     }
+
+    public function evaluateOrderLessThan()
+    {
+        return false;
+        $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+        if(!empty($getSubscriber))
+        {
+            $this->autoTrigger->logger()->info(sprintf('subscriber found'));
+            $cart_value = $getSubscriber->getValueByTag('CART_VALUE');
+            if(!empty($cart_value)){
+                $cartlessthan=$this->autoTrigger->automation2->cartlessthan;
+                if($cart_value < $cartlessthan)
+                {   
+                    $this->autoTrigger->logger()->info(sprintf('cart less send email'));
+                    return true;
+                }   
+                else
+                {
+                     $this->autoTrigger->logger()->info(sprintf('cart not less delete'));
+                     DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                }
+            }
+            else
+            {
+                DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+            }
+        }
+    }
+
+    public function evaluateContactCountryFrom()
+    {
+        $getSubscriber=Subscriber::where('mail_list_id',$this->autoTrigger->automation2->mail_list_id)->where('email',$this->autoTrigger->subscriber->email)->first();
+        if(!empty($getSubscriber))
+        {
+            $this->autoTrigger->logger()->info(sprintf('subscriber found'));
+            $country = $getSubscriber->getValueByTag('COUNTRY');
+            if(!empty($country)){
+                $selectCountry=$this->autoTrigger->automation2->country;
+                if($country == $selectCountry)
+                {   
+                    $this->autoTrigger->logger()->info(sprintf('country match'));
+                    return true;
+                }   
+                else
+                {
+                     $this->autoTrigger->logger()->info(sprintf('country not match'));
+                     DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+                }
+            }
+            else
+            {
+                DB::table('auto_triggers')->where('id',$this->autoTrigger->id)->delete();
+            }
+        }
+    }
+
+
+
 
     public function evaluateEmailOpenCondition()
     {

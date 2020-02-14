@@ -2379,3 +2379,26 @@ video.video-after-change {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     border-radius: 3px;
 }
+.cntnt-wrap{
+    width: 100%;
+    float: left;
+    padding: 30px;
+}
+.cntnt-box {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+}
+.cntnt-img {
+    text-align: center;
+}
+.cntnt-img img {
+    width: 100%;
+    margin-bottom: 15px;
+}
+a.btn.cus-btn {
+    background-color: #000;
+    color: #fff;
+    border-radius: 0;
+    font-size: 14px;
+}

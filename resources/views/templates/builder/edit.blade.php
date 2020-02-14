@@ -8,6 +8,36 @@
     @include('layouts._favicon')
     
     <link href="{{ URL::asset('builder/builder.css') }}" rel="stylesheet" type="text/css">
+
+    <style>
+        .cntnt-wrap{
+            width: 100%;
+            float: left;
+            padding: 30px;
+        }
+        .cntnt-box {
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+        }
+        .cntnt-box h4{
+            font-size: 1.4rem;
+        }
+        .cntnt-img {
+            text-align: center;
+        }
+        .cntnt-img img {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        a.btn.cus-btn {
+            background-color: #000;
+            color: #fff;
+            border-radius: 0;
+            font-size: 14px;
+        }
+    </style>
+
     <script type="text/javascript" src="{{ URL::asset('builder/builder.js') }}"></script>
     
     <script>
@@ -49,6 +79,7 @@
             editor.init();
         });
     </script>
+
   </head>
   <body>
   </body>

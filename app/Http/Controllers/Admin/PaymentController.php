@@ -97,7 +97,7 @@ class PaymentController extends Controller
     {
         $service = Cashier::getPaymentGateway($name);
 
-        try {
+       /* try {
             $sc = Subscription::count();
 
             if ($sc > 0) {
@@ -106,7 +106,7 @@ class PaymentController extends Controller
         } catch (\Exception $ex) {
             $request->session()->flash('alert-error', trans('messages.payment_gateway.not_valid', ['message' => $ex->getMessage()]));
             return redirect()->action('Admin\PaymentController@index');
-        }
+        }*/
 
         try {
             $service->validate();

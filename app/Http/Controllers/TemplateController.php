@@ -545,6 +545,16 @@ class TemplateController extends Controller
             $this->validate($request, $rules);
             
             $template->content = $request->content;
+
+            // if(strpos($template->content, 'src="https://app.themistermail.com/images/cart1_image.jpg"') !== false){
+            //     $template->content = str_replace('src="https://app.themistermail.com/images/cart1_image.jpg"','src="{SUBSCRIBER_CART1_IMAGE}"',$template->content);
+            // }
+            // if(strpos($template->content, 'src="https://app.themistermail.com/images/cart2_image.jpg"') !== false){
+            //     $template->content = str_replace('src="https://app.themistermail.com/images/cart2_image.jpg"','src="{SUBSCRIBER_CART2_IMAGE}"',$template->content);
+            // }
+
+            // echo "<pre>"; print($template);die;
+
             $template->save();
             
             return response()->json([
@@ -553,7 +563,7 @@ class TemplateController extends Controller
         }
 
         return view('templates.builder.edit', [
-            'template' => $template,
+            'template' => $template,    
             'templates' => $template->getBuilderTemplates($user->customer),
         ]);
     }

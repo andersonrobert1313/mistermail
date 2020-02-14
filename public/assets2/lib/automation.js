@@ -182,6 +182,14 @@ class AutomationElement {
             }
 
         }
+        // $('.diagram.scroll-content').scrollLeft(0);
+        // console.log($('#trigger_group')[0].getBoundingClientRect().left);
+        
+        // var triggerGroup = $('#trigger_group')[0].getBoundingClientRect().left
+        // if(triggerGroup <0){
+        //     triggerGroup = triggerGroup-30
+        //     $('#trigger_group').css('transform','translateX('+-triggerGroup+'px)')
+        // }
     }
 
     // Custom Events

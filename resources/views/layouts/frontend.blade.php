@@ -233,8 +233,9 @@
 
 
 		<!-- Footer -->
-		<div class="footer text-muted">
-				Mister Mail - We put the AI in mail. © 2020 | All Rights Reserved | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Privacy Policy</a> | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Terms Of Use</a>
+<div class="footer text-muted">
+							Mister Mail - We put the AI in mail. © 2020 | All Rights Reserved | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Privacy Policy</a> | <a target='_BLANK' href="https://themistermail.com/terms-of-service.html">Terms Of Use</a>
+
 		</div>
 		<!-- /footer -->
 

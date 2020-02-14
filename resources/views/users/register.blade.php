@@ -50,7 +50,7 @@
             <div class="col-md-5">
                 
                 <h1 class="mb-20">Create Your Mister Mail Account</h1>
-                <p>Manage your contacts, generate leads, run a marketing campaign,send automated emails and much more... Join us at Mister Mail to enjoy doing
+                <p>Easily manage your contacts, generate leads, run a marketing campaign, send automated emails and much more. Join us at Mister Mail to enjoy doing
     every day sales & marketing without any hassle. If you already have an account? <a href="{{ url('/login?shop=').@($_GET['shop']) }}">Login</a></p>
                     
                 @include('helpers.form_control', [

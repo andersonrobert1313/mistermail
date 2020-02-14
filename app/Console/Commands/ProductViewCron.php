@@ -43,7 +43,28 @@ class ProductViewCron extends Command
         $misterUsers=DB::table('users')->where('list_created',1)->get();
         foreach ($misterUsers as $key => $value) {
                 $access_token_data=DB::table('access_tokens')->where('store_name',$value->store_name)->first();
-                $url = 'https://' . $value->store_name . '/admin/customers.json';
+                $url_Count = 'https://' . $value->store_name . '/admin/customers/count.json';
+                $sessionCount = curl_init();
+                curl_setopt($sessionCount, CURLOPT_URL, $url_Count);
+                curl_setopt($sessionCount, CURLOPT_HEADER, false);
+                curl_setopt($sessionCount, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
+                curl_setopt($sessionCount, CURLOPT_RETURNTRANSFER, true);
+                $getCustomersCount = json_decode(curl_exec($sessionCount));
+                if($value->page == 0)
+                {
+                    if($getCustomersCount->count >250)
+                    {
+                        $page=intval(floor($getCustomersCount->count/250 + 0.5));
+                        DB::table('users')->where('id',$value->id)->update(array('page'=>$page));
+                    }
+                    else
+                    {
+                        $page=1;
+                        DB::table('users')->where('id',$value->id)->update(array('page'=>$page));
+                    }
+                }
+                $getUserData=DB::table('users')->where('id',$value->id)->first();
+                $url = 'https://' . $value->store_name . '/admin/customers.json?limit=250&page='.$getUserData->page;
                 $session = curl_init();
                 curl_setopt($session, CURLOPT_URL, $url);
                 curl_setopt($session, CURLOPT_HEADER, false);
@@ -51,7 +72,7 @@ class ProductViewCron extends Command
                 curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
                 $getCustomers = json_decode(curl_exec($session));
                 foreach ($getCustomers->customers as $key => $customer_value) {
-                    $get_list_url='https://app.themistermail.com/api/v1/lists?api_token='.$value->api_token; 
+                    /*$get_list_url='https://app.themistermail.com/api/v1/lists?api_token='.$value->api_token; 
                     $sessione = curl_init();
                     curl_setopt($sessione, CURLOPT_URL, $get_list_url);
                     curl_setopt($sessione, CURLOPT_HEADER, false);
@@ -63,8 +84,9 @@ class ProductViewCron extends Command
                        {
                             $list_uid=$value_list->uid;
                        }
-                    }
-
+                    }*/
+                    $list_uid=$value->mail_list_id;
+                    $getMAilList=DB::table('mail_lists')->where('uid',$list_uid)->first();
                     if($customer_value->accepts_marketing == 1)
                     {
                         $status='Subscribed';
@@ -125,144 +147,162 @@ class ProductViewCron extends Command
                                             'VIP_STATUS'=> ''
                                             );
                     $url_list='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL,$url_list);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS,$mister_list_array);
-                    $server_output = curl_exec($ch);
-                    curl_close ($ch);
+                    $checkSubscriber=DB::table('subscribers')->where('mail_list_id',$getMAilList->id)->where('email',$customer_value->email)->first();
+                    if(empty($checkSubscriber)){
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL,$url_list);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS,$mister_list_array);
+                        $server_output = curl_exec($ch);
+                        curl_close ($ch);
 
-                       //order check
-                    $order1_title='';
-                    $order2_title='';
-                    $order3_title='';
-                    $order4_title='';
-                    $order5_title='';
-                    $order1_image='';
-                    $order2_image='';
-                    $order3_image='';
-                    $order4_image='';
-                    $order5_image='';
-                    if($customer_value->orders_count > 0)
-                    {
-                        $urlo = 'https://' . $value->store_name . '/admin/customers/'.$customer_value->id.'/orders.json?limit=5';
-                        $sessiono = curl_init();
-                        curl_setopt($sessiono, CURLOPT_URL, $urlo);
-                        curl_setopt($sessiono, CURLOPT_HEADER, false);
-                        curl_setopt($sessiono, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
-                        curl_setopt($sessiono, CURLOPT_RETURNTRANSFER, true);
-                        $getOrders = json_decode(curl_exec($sessiono));
-                        foreach($getOrders->orders as $key=>$ord)
+                           //order check
+                        $order1_title='';
+                        $order2_title='';
+                        $order3_title='';
+                        $order4_title='';
+                        $order5_title='';
+                        $order1_image='';
+                        $order2_image='';
+                        $order3_image='';
+                        $order4_image='';
+                        $order5_image='';
+                        if($customer_value->orders_count > 0)
                         {
-                            $product_id=$ord->line_items[0]->product_id;
-                            $urlp = 'https://' . $value->store_name . '/admin/products/'.$product_id.'.json';
-                            $sessionp = curl_init();
-                            curl_setopt($sessionp, CURLOPT_URL, $urlp);
-                            curl_setopt($sessionp, CURLOPT_HEADER, false);
-                            curl_setopt($sessionp, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
-                            curl_setopt($sessionp, CURLOPT_RETURNTRANSFER, true);
-                            $getProduct = json_decode(curl_exec($sessionp));
-                            if($key == 0)
-                            {
-                                $order1_title=$getProduct->product->title;
-                                $order1_image=$getProduct->product->images[0]->src;
-                                $mister_list_array=array(
-                                            'EMAIL'=>$customer_value->email,
-                                            'ORDER1_TITLE'=>$order1_title,
-                                            'ORDER1_IMAGE'=>$order1_image,
-                                            'IP_ADDR'=>$ord->browser_ip,
-                                            'LAST_PURCHASE'=>$ord->created_at
-                                            );
-                                $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
-                                $chh = curl_init();
-                                curl_setopt($chh, CURLOPT_URL,$url_listt);
-                                curl_setopt($chh, CURLOPT_POST, 1);
-                                curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                                $server_output = curl_exec($chh);
-                                curl_close ($chh);
-                            }
-                            if($key == 1)
-                            {
-                                $order2_title=$getProduct->product->title;
-                                $order2_image=$getProduct->product->images[0]->src;
-                                $mister_list_array=array(
-                                            'EMAIL'=>$customer_value->email,
-                                            'ORDER2_TITLE'=>$order2_title,
-                                            'ORDER2_IMAGE'=>$order2_image,
-                                             'IP_ADDR'=>$ord->browser_ip
-                                            );
-                                $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
-                                $chh = curl_init();
-                                curl_setopt($chh, CURLOPT_URL,$url_listt);
-                                curl_setopt($chh, CURLOPT_POST, 1);
-                                curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                                $server_output = curl_exec($chh);
-                                curl_close ($chh);
-                            }
-                            if($key == 2)
-                            {
-                                $order3_title=$getProduct->product->title;
-                                $order3_image=$getProduct->product->images[0]->src;
-                                $mister_list_array=array(
-                                            'EMAIL'=>$customer_value->email,
-                                            'ORDER3_TITLE'=>$order3_title,
-                                            'ORDER3_IMAGE'=>$order3_image,
-                                             'IP_ADDR'=>$ord->browser_ip
-                                            );
-                                $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
-                                $chh = curl_init();
-                                curl_setopt($chh, CURLOPT_URL,$url_listt);
-                                curl_setopt($chh, CURLOPT_POST, 1);
-                                curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                                $server_output = curl_exec($chh);
-                                curl_close ($chh);
-                            }
-                            if($key == 3)
-                            {
-                                $order4_title=$getProduct->product->title;
-                                $order4_image=$getProduct->product->images[0]->src;
-                                $mister_list_array=array(
-                                            'EMAIL'=>$customer_value->email,
-                                            'ORDER4_TITLE'=>$order4_title,
-                                            'ORDER4_IMAGE'=>$order4_image,
-                                             'IP_ADDR'=>$ord->browser_ip
-                                            );
-                                $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
-                                $chh = curl_init();
-                                curl_setopt($chh, CURLOPT_URL,$url_listt);
-                                curl_setopt($chh, CURLOPT_POST, 1);
-                                curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                                $server_output = curl_exec($chh);
-                                curl_close ($chh);
-                            }
-                            if($key == 4)
-                            {
-                                $order5_title=$getProduct->product->title;
-                                $order5_image=$getProduct->product->images[0]->src;
-                                $mister_list_array=array(
-                                            'EMAIL'=>$customer_value->email,
-                                            'ORDER5_TITLE'=>$order5_title,
-                                            'ORDER5_IMAGE'=>$order5_image,
-                                             'IP_ADDR'=>$ord->browser_ip
-                                            );
-                                $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
-                                $chh = curl_init();
-                                curl_setopt($chh, CURLOPT_URL,$url_listt);
-                                curl_setopt($chh, CURLOPT_POST, 1);
-                                curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                                $server_output = curl_exec($chh);
-                                curl_close ($chh);
+                            $urlo = 'https://' . $value->store_name . '/admin/customers/'.$customer_value->id.'/orders.json?limit=5';
+                            $sessiono = curl_init();
+                            curl_setopt($sessiono, CURLOPT_URL, $urlo);
+                            curl_setopt($sessiono, CURLOPT_HEADER, false);
+                            curl_setopt($sessiono, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
+                            curl_setopt($sessiono, CURLOPT_RETURNTRANSFER, true);
+                            $getOrders = json_decode(curl_exec($sessiono));
+                            if(!empty($getOrders->orders)){
+                                foreach($getOrders->orders as $key=>$ord)
+                                {
+                                    $product_id=$ord->line_items[0]->product_id;
+                                    $urlp = 'https://' . $value->store_name . '/admin/products/'.$product_id.'.json';
+                                    $sessionp = curl_init();
+                                    curl_setopt($sessionp, CURLOPT_URL, $urlp);
+                                    curl_setopt($sessionp, CURLOPT_HEADER, false);
+                                    curl_setopt($sessionp, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
+                                    curl_setopt($sessionp, CURLOPT_RETURNTRANSFER, true);
+                                    $getProduct = json_decode(curl_exec($sessionp));
+                                    if($key == 0)
+                                    {
+                                        $order1_title=$getProduct->product->title;
+                                        $order1_image=$getProduct->product->images[0]->src;
+                                        $mister_list_array=array(
+                                                    'EMAIL'=>$customer_value->email,
+                                                    'ORDER1_TITLE'=>$order1_title,
+                                                    'ORDER1_IMAGE'=>$order1_image,
+                                                    'IP_ADDR'=>$ord->browser_ip,
+                                                    'LAST_PURCHASE'=>$ord->created_at
+                                                    );
+                                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
+                                        $chh = curl_init();
+                                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                                        curl_setopt($chh, CURLOPT_POST, 1);
+                                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                                        $server_output = curl_exec($chh);
+                                        curl_close ($chh);
+                                    }
+                                    if($key == 1)
+                                    {
+                                        $order2_title=$getProduct->product->title;
+                                        $order2_image=$getProduct->product->images[0]->src;
+                                        $mister_list_array=array(
+                                                    'EMAIL'=>$customer_value->email,
+                                                    'ORDER2_TITLE'=>$order2_title,
+                                                    'ORDER2_IMAGE'=>$order2_image,
+                                                     'IP_ADDR'=>$ord->browser_ip
+                                                    );
+                                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
+                                        $chh = curl_init();
+                                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                                        curl_setopt($chh, CURLOPT_POST, 1);
+                                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                                        $server_output = curl_exec($chh);
+                                        curl_close ($chh);
+                                    }
+                                    if($key == 2)
+                                    {
+                                        $order3_title=$getProduct->product->title;
+                                        $order3_image=$getProduct->product->images[0]->src;
+                                        $mister_list_array=array(
+                                                    'EMAIL'=>$customer_value->email,
+                                                    'ORDER3_TITLE'=>$order3_title,
+                                                    'ORDER3_IMAGE'=>$order3_image,
+                                                     'IP_ADDR'=>$ord->browser_ip
+                                                    );
+                                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
+                                        $chh = curl_init();
+                                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                                        curl_setopt($chh, CURLOPT_POST, 1);
+                                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                                        $server_output = curl_exec($chh);
+                                        curl_close ($chh);
+                                    }
+                                    if($key == 3)
+                                    {
+                                        $order4_title=$getProduct->product->title;
+                                        $order4_image=$getProduct->product->images[0]->src;
+                                        $mister_list_array=array(
+                                                    'EMAIL'=>$customer_value->email,
+                                                    'ORDER4_TITLE'=>$order4_title,
+                                                    'ORDER4_IMAGE'=>$order4_image,
+                                                     'IP_ADDR'=>$ord->browser_ip
+                                                    );
+                                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
+                                        $chh = curl_init();
+                                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                                        curl_setopt($chh, CURLOPT_POST, 1);
+                                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                                        $server_output = curl_exec($chh);
+                                        curl_close ($chh);
+                                    }
+                                    if($key == 4)
+                                    {
+                                        $order5_title=$getProduct->product->title;
+                                        $order5_image=$getProduct->product->images[0]->src;
+                                        $mister_list_array=array(
+                                                    'EMAIL'=>$customer_value->email,
+                                                    'ORDER5_TITLE'=>$order5_title,
+                                                    'ORDER5_IMAGE'=>$order5_image,
+                                                     'IP_ADDR'=>$ord->browser_ip
+                                                    );
+                                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$value->api_token;
+                                        $chh = curl_init();
+                                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                                        curl_setopt($chh, CURLOPT_POST, 1);
+                                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                                        $server_output = curl_exec($chh);
+                                        curl_close ($chh);
+                                    }
+                                }
                             }
                         }
+                        /*else
+                        {
+                            $AgainCheckSubscriber=DB::table('subscribers')->where('mail_list_id',$getMAilList->id)->where('email',$customer_value->email)->first();
+                            DB::table('subscribers')->where('id',$AgainCheckSubscriber->id)->update(array('new_status'=>0));
+                        }*/
                     }
                 }
-            DB::table('users')->where('id',$value->id)->update(array('list_created'=>2));
+            if($getUserData->page == 1)
+            {
+                DB::table('users')->where('id',$value->id)->update(array('list_created'=>2));
+            }
+            else
+            {
+                DB::table('users')->where('id',$value->id)->update(array('page'=>$getUserData->page-1));
+                echo "next page";die;
+            }
         }
         /*for login*/
         $records=DB::table('products_view_main')->where('status',0)->get();
@@ -293,108 +333,115 @@ class ProductViewCron extends Command
                     $list_uid=$value_list->uid;
                }
             }
-            foreach($inner_records as $key=>$inr){
-                $urlp = 'https://' . $rec->store_name . '/admin/products/'.$inr->product_id.'.json';
-                $sessionp = curl_init();
-                curl_setopt($sessionp, CURLOPT_URL, $urlp);
-                curl_setopt($sessionp, CURLOPT_HEADER, false);
-                curl_setopt($sessionp, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
-                curl_setopt($sessionp, CURLOPT_RETURNTRANSFER, true);
-                $getProduct = json_decode(curl_exec($sessionp));
-                if($key == 0)
-                {
-                    $product1_title=$getProduct->product->title;
-                    $product1_image=$getProduct->product->images[0]->src;
-                    $mister_list_array=array(
-                                'EMAIL'=>$email,
-                                'PRODUCT1_TITLE'=>$product1_title,
-                                'PRODUCT1_IMAGE'=>$product1_image,
-                                'PRODUCT1_DATE'=>$inr->date
-                                );
-                    $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
-                    $chh = curl_init();
-                    curl_setopt($chh, CURLOPT_URL,$url_listt);
-                    curl_setopt($chh, CURLOPT_POST, 1);
-                    curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                    $server_output = curl_exec($chh);
-                    curl_close ($chh);
-                }
-                if($key == 1)
-                {
-                    $product2_title=$getProduct->product->title;
-                    $product2_image=$getProduct->product->images[0]->src;
-                    $mister_list_array=array(
-                                'EMAIL'=>$email,
-                                'PRODUCT2_TITLE'=>$product2_title,
-                                'PRODUCT2_IMAGE'=>$product2_image,
-                                'PRODUCT2_DATE'=>$inr->date
-                                );
-                    $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
-                    $chh = curl_init();
-                    curl_setopt($chh, CURLOPT_URL,$url_listt);
-                    curl_setopt($chh, CURLOPT_POST, 1);
-                    curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                    $server_output = curl_exec($chh);
-                    curl_close ($chh);
-                }
-                if($key == 2)
-                {
-                    $product3_title=$getProduct->product->title;
-                    $product3_image=$getProduct->product->images[0]->src;
-                    $mister_list_array=array(
-                                'EMAIL'=>$email,
-                                'PRODUCT3_TITLE'=>$product3_title,
-                                'PRODUCT3_IMAGE'=>$product3_image,
-                                 'PRODUCT3_DATE'=>$inr->date
-                                );
-                    $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
-                    $chh = curl_init();
-                    curl_setopt($chh, CURLOPT_URL,$url_listt);
-                    curl_setopt($chh, CURLOPT_POST, 1);
-                    curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                    $server_output = curl_exec($chh);
-                    curl_close ($chh);
-                }
-                if($key == 3)
-                {
-                    $product4_title=$getProduct->product->title;
-                    $product4_image=$getProduct->product->images[0]->src;
-                    $mister_list_array=array(
-                                'EMAIL'=>$email,
-                                'PRODUCT4_TITLE'=>$product4_title,
-                                'PRODUCT4_IMAGE'=>$product4_image,
-                                 'PRODUCT4_DATE'=>$inr->date
-                                );
-                    $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
-                    $chh = curl_init();
-                    curl_setopt($chh, CURLOPT_URL,$url_listt);
-                    curl_setopt($chh, CURLOPT_POST, 1);
-                    curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                    $server_output = curl_exec($chh);
-                    curl_close ($chh);
-                }
-                if($key == 4)
-                {
-                    $product5_title=$getProduct->product->title;
-                    $product5_image=$getProduct->product->images[0]->src;
-                    $mister_list_array=array(
-                                'EMAIL'=>$email,
-                                'PRODUCT5_TITLE'=>$product5_title,
-                                'PRODUCT5_IMAGE'=>$product5_image,
-                                'PRODUCT5_DATE'=>$inr->date
-                                );
-                    $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
-                    $chh = curl_init();
-                    curl_setopt($chh, CURLOPT_URL,$url_listt);
-                    curl_setopt($chh, CURLOPT_POST, 1);
-                    curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
-                    $server_output = curl_exec($chh);
-                    curl_close ($chh);
+            if(!empty($inner_records)){
+                foreach($inner_records as $key=>$inr){
+                    $urlp = 'https://' . $rec->store_name . '/admin/products/'.$inr->product_id.'.json';
+                    $sessionp = curl_init();
+                    curl_setopt($sessionp, CURLOPT_URL, $urlp);
+                    curl_setopt($sessionp, CURLOPT_HEADER, false);
+                    curl_setopt($sessionp, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json', 'X-Shopify-Access-Token: ' . $access_token_data->access_token));
+                    curl_setopt($sessionp, CURLOPT_RETURNTRANSFER, true);
+                    $getProduct = json_decode(curl_exec($sessionp));
+                    if($key == 0)
+                    {
+                        $product1_title=$getProduct->product->title;
+                        $product1_image=$getProduct->product->images[0]->src;
+                        $mister_list_array=array(
+                                    'EMAIL'=>$email,
+                                    'PRODUCT1_TITLE'=>$product1_title,
+                                    'PRODUCT1_IMAGE'=>$product1_image,
+                                    'PRODUCT1_DATE'=>$inr->date,
+                                    'PRODUCT1_URL'=>$inr->url
+                                    );
+                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
+                        $chh = curl_init();
+                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                        curl_setopt($chh, CURLOPT_POST, 1);
+                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                        $server_output = curl_exec($chh);
+                        curl_close ($chh);
+                    }
+                    if($key == 1)
+                    {
+                        $product2_title=$getProduct->product->title;
+                        $product2_image=$getProduct->product->images[0]->src;
+                        $mister_list_array=array(
+                                    'EMAIL'=>$email,
+                                    'PRODUCT2_TITLE'=>$product2_title,
+                                    'PRODUCT2_IMAGE'=>$product2_image,
+                                    'PRODUCT2_DATE'=>$inr->date,
+                                    'PRODUCT@_URL'=>$inr->url
+                                    );
+                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
+                        $chh = curl_init();
+                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                        curl_setopt($chh, CURLOPT_POST, 1);
+                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                        $server_output = curl_exec($chh);
+                        curl_close ($chh);
+                    }
+                    if($key == 2)
+                    {
+                        $product3_title=$getProduct->product->title;
+                        $product3_image=$getProduct->product->images[0]->src;
+                        $mister_list_array=array(
+                                    'EMAIL'=>$email,
+                                    'PRODUCT3_TITLE'=>$product3_title,
+                                    'PRODUCT3_IMAGE'=>$product3_image,
+                                     'PRODUCT3_DATE'=>$inr->date,
+                                    'PRODUCT3_URL'=>$inr->url
+                                    );
+                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
+                        $chh = curl_init();
+                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                        curl_setopt($chh, CURLOPT_POST, 1);
+                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                        $server_output = curl_exec($chh);
+                        curl_close ($chh);
+                    }
+                    if($key == 3)
+                    {
+                        $product4_title=$getProduct->product->title;
+                        $product4_image=$getProduct->product->images[0]->src;
+                        $mister_list_array=array(
+                                    'EMAIL'=>$email,
+                                    'PRODUCT4_TITLE'=>$product4_title,
+                                    'PRODUCT4_IMAGE'=>$product4_image,
+                                     'PRODUCT4_DATE'=>$inr->date,
+                                    'PRODUCT4_URL'=>$inr->url
+                                    );
+                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
+                        $chh = curl_init();
+                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                        curl_setopt($chh, CURLOPT_POST, 1);
+                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                        $server_output = curl_exec($chh);
+                        curl_close ($chh);
+                    }
+                    if($key == 4)
+                    {
+                        $product5_title=$getProduct->product->title;
+                        $product5_image=$getProduct->product->images[0]->src;
+                        $mister_list_array=array(
+                                    'EMAIL'=>$email,
+                                    'PRODUCT5_TITLE'=>$product5_title,
+                                    'PRODUCT5_IMAGE'=>$product5_image,
+                                    'PRODUCT5_DATE'=>$inr->date,
+                                    'PRODUCT5_URL'=>$inr->url
+                                    );
+                        $url_listt='https://app.themistermail.com/api/v1/lists/'.$list_uid.'/subscribers/store?api_token='.$api_token_data->api_token;
+                        $chh = curl_init();
+                        curl_setopt($chh, CURLOPT_URL,$url_listt);
+                        curl_setopt($chh, CURLOPT_POST, 1);
+                        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($chh, CURLOPT_POSTFIELDS,$mister_list_array);
+                        $server_output = curl_exec($chh);
+                        curl_close ($chh);
+                    }
                 }
             }
             DB::table('products_view_main')->where('id',$rec->id)->update(array('status'=>1));
@@ -402,7 +449,7 @@ class ProductViewCron extends Command
         /*end for login*/
 
 
-         /*for ip*/
+         /*for ip
         $records=DB::table('products_view_main_ip')->where('status',0)->get();
         foreach($records as $rec)
         {
@@ -544,7 +591,7 @@ class ProductViewCron extends Command
 
             
         }
-        /*end for ip */
+        end for ip */
     }
 
    /* public function handle()

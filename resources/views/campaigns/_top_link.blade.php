@@ -1,5 +1,5 @@
         @if ($campaign->getTopLinks()->count())
-			<h3 class="text-semibold"><i class="icon-link"></i> {{ trans('messages.top_links_clicked') }}</h3>
+			<h3 style="color:#335eea !important" class="text-semibold"><i class="icon-link"></i> {{ trans('messages.top_links_clicked') }}</h3>
             
 			<div class="stat-table">
 				@foreach ($campaign->getTopLinks()->get() as $link)

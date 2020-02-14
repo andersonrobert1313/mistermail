@@ -1,4 +1,4 @@
-            <h3 class="mt-10"><span class="text-teal text-bold">{{ $campaign->readCache('SubscriberCount', 0) }}</span> {{ trans('messages.' . \Acelle\Library\Tool::getPluralPrase('recipient', $campaign->readCache('SubscriberCount', 0))) }}</h3>
+            <h3 style="color:#335eea !important" class="mt-10"><span class="text-teal text-bold">{{ $campaign->readCache('SubscriberCount', 0) }}</span> {{ trans('messages.' . \Acelle\Library\Tool::getPluralPrase('recipient', $campaign->readCache('SubscriberCount', 0))) }}</h3>
 
             <div class="row">
                 <div class="col-md-6 campaigns-summary">

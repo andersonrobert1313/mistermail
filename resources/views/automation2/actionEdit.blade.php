@@ -47,6 +47,7 @@
             type: 'POST',
             data: data,
         }).always(function(response) {
+            
             // set node title
             tree.getSelected().setTitle(response.title);
             // merge options with reponse options
